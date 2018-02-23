@@ -1,4 +1,4 @@
-package com.example.bankblood.Activities;
+package com.example.bankblood.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 
 import com.example.bankblood.R;
+import com.example.bankblood.utils.Callback;
+import com.example.bankblood.utils.FirebaseResetPassword;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,8 +22,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText inputEmail;
     private Button btnReset, btnBack;
-    private FirebaseAuth auth;
+    //private FirebaseAuth auth;
     private ProgressBar progressBar;
+
+    FirebaseResetPassword firebaseResetPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         btnBack = (Button) findViewById(R.id.btn_back);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
+        firebaseResetPassword=new FirebaseResetPassword();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +59,24 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
-                auth.sendPasswordResetEmail(email)
+
+                firebaseResetPassword.setCallback(new Callback() {
+                    @Override
+                    public void OnSuccess(Object obj) {
+                        Toast.makeText(ResetPasswordActivity.this, R.string.we_have_sent_you_instructions_toreset_your_password, Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void OnFailure(Object obj) {
+                        Toast.makeText(ResetPasswordActivity.this, R.string.failed_to_send_reset_email, Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+
+                firebaseResetPassword.resetPasswordWithFirebase(email);
+
+                /*auth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -66,7 +88,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                                 progressBar.setVisibility(View.GONE);
                             }
-                        });
+                        });*/
             }
         });
     }

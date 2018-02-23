@@ -1,4 +1,4 @@
-package com.example.bankblood.Activities;
+package com.example.bankblood.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.bankblood.MainActivity;
 import com.example.bankblood.R;
+import com.example.bankblood.utils.Callback;
+import com.example.bankblood.utils.FirebaseSignUp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,7 +26,8 @@ public class SignupActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
-    private FirebaseAuth auth;
+    //private FirebaseAuth auth;
+    FirebaseSignUp firebaseSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,8 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
+        firebaseSignUp=new FirebaseSignUp();
 
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
@@ -78,9 +82,35 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
+                firebaseSignUp.setCallback(new Callback() {
+                    @Override
+                    public void OnSuccess(Object obj) {
+                        Task<AuthResult> task = (Task<AuthResult>) obj;
+
+                        Toast.makeText(SignupActivity.this, getString(R.string.createUserwithemailoncomplete) + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+
+                        startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void OnFailure(Object obj) {
+
+                            Task<AuthResult> task = (Task<AuthResult>) obj;
+                            Toast.makeText(SignupActivity.this, getString(R.string.createUserwithemailoncomplete) + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+
+                            Toast.makeText(SignupActivity.this, getString(R.string.authentication_failed) + task.getException(),
+                                    Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                firebaseSignUp.signUpWithFirebase(email,password);
+
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
-                auth.createUserWithEmailAndPassword(email, password)
+                /*auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -97,8 +127,7 @@ public class SignupActivity extends AppCompatActivity {
                                     finish();
                                 }
                             }
-                        });
-
+                        });*/
             }
         });
     }

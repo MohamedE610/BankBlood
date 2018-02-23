@@ -1,8 +1,7 @@
-package com.example.bankblood.Activities;
+package com.example.bankblood.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -14,26 +13,27 @@ import android.widget.Toast;
 
 import com.example.bankblood.MainActivity;
 import com.example.bankblood.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.bankblood.utils.Callback;
+import com.example.bankblood.utils.FirebaseSignIn;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
-    private FirebaseAuth auth;
+    //private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    FirebaseSignIn firebaseSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
+        firebaseSignIn=new FirebaseSignIn();
 
-        if (auth.getCurrentUser() != null) {
+        //if (auth.getCurrentUser() != null) {
+        if(firebaseSignIn.getFirebaseUser()!=null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.btn_reset_password);
 
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +88,29 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
+                firebaseSignIn.setCallback(new Callback() {
+                    @Override
+                    public void OnSuccess(Object obj) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void OnFailure(Object obj) {
+
+                        if (password.length() < 6) {
+                            inputPassword.setError(getString(R.string.minimum_password));
+                        } else {
+                            Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                firebaseSignIn.signInWithFirebase(email,password);
+
+
                 //authenticate user
-                auth.signInWithEmailAndPassword(email, password)
+                /*auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -110,7 +131,8 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 }
                             }
-                        });
+                        });*/
+
             }
         });
     }
