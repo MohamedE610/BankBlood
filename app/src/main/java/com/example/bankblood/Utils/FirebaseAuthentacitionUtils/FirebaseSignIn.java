@@ -1,4 +1,4 @@
-package com.example.bankblood.utils;
+package com.example.bankblood.Utils.FirebaseAuthentacitionUtils;
 
 import android.support.annotation.NonNull;
 
@@ -31,9 +31,9 @@ public class FirebaseSignIn extends FirebaseHelper {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // there was an error
-                    callback.OnSuccess(task);
+                    callbacks.OnSuccess(task);
                 } else {
-                    callback.OnFailure(task);
+                    callbacks.OnFailure(task);
                 }
             }
         });

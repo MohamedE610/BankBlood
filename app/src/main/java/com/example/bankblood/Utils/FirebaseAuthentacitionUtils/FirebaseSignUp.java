@@ -1,4 +1,4 @@
-package com.example.bankblood.utils;
+package com.example.bankblood.Utils.FirebaseAuthentacitionUtils;
 
 import android.support.annotation.NonNull;
 
@@ -26,9 +26,9 @@ public class FirebaseSignUp extends FirebaseHelper {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            callback.OnSuccess(task);
+                            callbacks.OnSuccess(task);
                         } else {
-                            callback.OnFailure(task);
+                            callbacks.OnFailure(task);
                         }
                     }
                 });

@@ -1,7 +1,6 @@
-package com.example.bankblood.activities;
+package com.example.bankblood.Activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,11 +11,8 @@ import android.widget.Toast;
 
 
 import com.example.bankblood.R;
-import com.example.bankblood.utils.Callback;
-import com.example.bankblood.utils.FirebaseResetPassword;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.bankblood.Utils.Callbacks;
+import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseResetPassword;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -60,7 +56,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                firebaseResetPassword.setCallback(new Callback() {
+                firebaseResetPassword.setCallbacks(new Callbacks() {
                     @Override
                     public void OnSuccess(Object obj) {
                         Toast.makeText(ResetPasswordActivity.this, R.string.we_have_sent_you_instructions_toreset_your_password, Toast.LENGTH_SHORT).show();

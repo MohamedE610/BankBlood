@@ -1,11 +1,7 @@
-package com.example.bankblood.utils;
+package com.example.bankblood.Utils.FirebaseAuthentacitionUtils;
 
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.Toast;
 
-import com.example.bankblood.R;
-import com.example.bankblood.activities.ResetPasswordActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -25,9 +21,9 @@ public class FirebaseResetPassword extends FirebaseHelper {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            callback.OnSuccess(task);
+                            callbacks.OnSuccess(task);
                         } else {
-                            callback.OnFailure(task);
+                            callbacks.OnFailure(task);
                         }
                     }
                 });

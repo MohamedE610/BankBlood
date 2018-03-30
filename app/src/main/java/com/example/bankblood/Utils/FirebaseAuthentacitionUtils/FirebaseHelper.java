@@ -1,5 +1,6 @@
-package com.example.bankblood.utils;
+package com.example.bankblood.Utils.FirebaseAuthentacitionUtils;
 
+import com.example.bankblood.Utils.Callbacks;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -8,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class FirebaseHelper {
 
-    protected Callback callback;
+    protected Callbacks callbacks;
     protected FirebaseAuth auth;
 
     public FirebaseHelper(){
@@ -16,8 +17,8 @@ public class FirebaseHelper {
         auth = FirebaseAuth.getInstance();
     }
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
+    public void setCallbacks(Callbacks callbacks) {
+        this.callbacks = callbacks;
     }
 
 }

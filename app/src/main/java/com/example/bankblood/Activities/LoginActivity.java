@@ -1,4 +1,4 @@
-package com.example.bankblood.activities;
+package com.example.bankblood.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +11,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.bankblood.MainActivity;
 import com.example.bankblood.R;
-import com.example.bankblood.utils.Callback;
-import com.example.bankblood.utils.FirebaseSignIn;
+import com.example.bankblood.Utils.Callbacks;
+import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseSignIn;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     //private FirebaseAuth auth;
     private ProgressBar progressBar;
-    private Button btnSignup, btnLogin, btnReset;
+    private Button btnSignup, btnLogin, btnReset,btnEixt;
     FirebaseSignIn firebaseSignIn;
 
     @Override
@@ -34,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //if (auth.getCurrentUser() != null) {
         if(firebaseSignIn.getFirebaseUser()!=null){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         }
 
@@ -50,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
+        btnEixt = (Button) findViewById(R.id.btn_exit);
 
         //Get Firebase auth instance
         //auth = FirebaseAuth.getInstance();
@@ -88,10 +88,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                firebaseSignIn.setCallback(new Callback() {
+                firebaseSignIn.setCallbacks(new Callbacks() {
                     @Override
                     public void OnSuccess(Object obj) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -108,31 +108,14 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 firebaseSignIn.signInWithFirebase(email,password);
 
+            }
+        });
 
-                //authenticate user
-                /*auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6) {
-                                        inputPassword.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });*/
 
+        btnEixt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

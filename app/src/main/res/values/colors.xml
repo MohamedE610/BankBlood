@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#3F51B5</color>
+    <color name="colorPrimary">#99d50000</color>
+    <color name="colorPrimaryDark">#d50000</color>
+    <color name="colorAccent">#888888</color>
+
+    <color name="createAccountBtn">#77E6E6E6</color>
+
 
 
     <color name="photo_placeholder">#ccc</color>
@@ -39,4 +42,5 @@
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
+
 </resources>
