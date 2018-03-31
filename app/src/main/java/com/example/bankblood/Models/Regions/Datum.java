@@ -8,9 +8,12 @@ import com.google.gson.annotations.SerializedName;
 public class Datum implements Serializable
 {
 
+    @SerializedName("id")
+    @Expose
+    public Integer id;
     @SerializedName("name")
     @Expose
     public String name;
-    private final static long serialVersionUID = 4065690005773059826L;
+    private final static long serialVersionUID = -7071787105969380027L;
 
 }

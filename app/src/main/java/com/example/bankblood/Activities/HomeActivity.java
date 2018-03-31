@@ -14,16 +14,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
+import com.example.bankblood.Dialogs.DonateDialog;
+import com.example.bankblood.Dialogs.MapSearchDialog;
+import com.example.bankblood.Dialogs.SearchDialog;
 import com.example.bankblood.R;
+import com.example.bankblood.Utils.Callbacks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,8 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         };
+
+
     }
 
     //sign out method
@@ -116,22 +127,39 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_profile) {
+            profileMethod();
+        } else if (id == R.id.nav_inbox) {
+            inboxMethod();
+        } else if (id == R.id.nav_map) {
+            mapMethod();
+        } else if (id == R.id.nav_logout) {
+           signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void mapMethod() {
+        MapSearchDialog mapSearchDialog=new MapSearchDialog(this);
+        mapSearchDialog.show();
+    }
+
+    private void inboxMethod() {
+        Intent intent=new Intent(this,InboxActivity.class);
+        startActivity(intent);
+    }
+
+    private void profileMethod(){
+        Intent intent=new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
 }

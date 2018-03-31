@@ -3,9 +3,15 @@ package com.example.bankblood.Utils.RetrofitUtils;
 
 
 
+import com.example.bankblood.Models.BloodTypeFilter.BloodTypeFilter;
+import com.example.bankblood.Models.BloodTypes.BloodTypes;
 import com.example.bankblood.Models.Cities.Cities;
+import com.example.bankblood.Models.City.City;
+import com.example.bankblood.Models.Donner.Donner;
 import com.example.bankblood.Models.Donners.Donners;
 import com.example.bankblood.Models.Message.Message;
+import com.example.bankblood.Models.Messages.Messages;
+import com.example.bankblood.Models.Region.Region;
 import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.Utils.Constants;
 
@@ -28,8 +34,53 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
+    @POST("/donners/{donner_id}")
+    Call<Donner> UpdateDonner(@Path("donner_id") int donner_id,@Body HashMap HASH_MAP);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
+    @GET("/regions/{region_id}")
+    Call<Region> getRegionByID(@Path("region_id") int region_id);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
+    @GET("/cities/{city_id}")
+    Call<City> getCityByID(@Path("city_id") int city_id);
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
+    @GET("/bloodtypes")
+    Call<BloodTypes> fetchBloodTypes();
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
+    @GET("/bloodtypes/{blood_id}")
+    Call<BloodTypeFilter> filterDonnersByBloodType(@Path("blood_id")int blood_id);
+
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
     @GET("/regions")
     Call<Regions> fetchRegions();
+
 
 
     @Headers({
@@ -63,8 +114,7 @@ public interface ApiInterface {
             "Authorization: "+ Constants.accessToken
     })
     @GET("/donners/{donner_id}")
-    Call<HashMap> getDonnerByID(@Path("donner_id") int donner_id);
-
+    Call<Donner> getDonnerByID(@Path("donner_id") int donner_id);
 
     @Headers({
             "Accept: application/json",
@@ -72,7 +122,7 @@ public interface ApiInterface {
             "Authorization: "+ Constants.accessToken
     })
     @GET("/donners/{donner_id}/outgoingMessages")
-    Call<HashMap> getOutgoingMessages(@Path("donner_id") int donner_id);
+    Call<Messages> getOutgoingMessages(@Path("donner_id") int donner_id);
 
 
     @Headers({
@@ -81,7 +131,7 @@ public interface ApiInterface {
             "Authorization: "+ Constants.accessToken
     })
     @GET("/donners/{donner_id}/incomingMessages")
-    Call<HashMap> getIncomingMessages(@Path("donner_id") int donner_id);
+    Call<Messages> getIncomingMessages(@Path("donner_id") int donner_id);
 
     @Headers({
             "Accept: application/json",
@@ -138,6 +188,6 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @DELETE("/donners/{inbox_id}/delete")
-    Call<HashMap> markMessageAsRead(@Path("donner_id") int inbox_id);
+    @DELETE("/inbox/{inbox_id}/read")
+    Call<Message> markMessageAsRead(@Path("inbox_id") int inbox_id);
 }

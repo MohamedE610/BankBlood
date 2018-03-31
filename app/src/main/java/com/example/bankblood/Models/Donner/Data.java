@@ -1,13 +1,16 @@
 
-package com.example.bankblood.Models.Donners;
+package com.example.bankblood.Models.Donner;
 
 import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum implements Serializable
+public class Data implements Serializable
 {
 
+    @SerializedName("id")
+    @Expose
+    public Integer id;
     @SerializedName("name")
     @Expose
     public String name;
@@ -32,6 +35,6 @@ public class Datum implements Serializable
     @SerializedName("incomingMessages")
     @Expose
     public IncomingMessages incomingMessages;
-    private final static long serialVersionUID = -3456973573063292226L;
+    private final static long serialVersionUID = 3517549579700979884L;
 
 }

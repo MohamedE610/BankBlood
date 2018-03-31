@@ -23,6 +23,9 @@ public class Datum__ implements Serializable
     @SerializedName("to")
     @Expose
     public String to;
-    private final static long serialVersionUID = 1459168393672255577L;
+    @SerializedName("read")
+    @Expose
+    public Boolean read;
+    private final static long serialVersionUID = 4325342127572306151L;
 
 }

@@ -1,5 +1,6 @@
 package com.example.bankblood.Utils.RestApiRequests;
 
+import com.example.bankblood.Models.Messages.Messages;
 import com.example.bankblood.Utils.RetrofitUtils.ApiClient;
 import com.example.bankblood.Utils.RetrofitUtils.ApiInterface;
 import com.example.bankblood.Utils.RetrofitUtils.FetchData;
@@ -14,7 +15,7 @@ import retrofit2.Response;
  * Created by E610 on 3/30/2018.
  */
 
-public class GetIncomingMessagesRequest extends FetchData implements Callback<HashMap> {
+public class GetIncomingMessagesRequest extends FetchData implements Callback<Messages> {
 
 
     int id;
@@ -26,18 +27,18 @@ public class GetIncomingMessagesRequest extends FetchData implements Callback<Ha
     public void start() {
         retrofit= ApiClient.getClient();
         apiInterface=retrofit.create(ApiInterface.class);
-        Call<HashMap>  incomingMessages= apiInterface.getIncomingMessages(id);
+        Call<Messages>  incomingMessages= apiInterface.getIncomingMessages(id);
         incomingMessages.enqueue(this);
     }
 
     @Override
-    public void onResponse(Call<HashMap> call, Response<HashMap> response) {
-        HashMap body=response.body();
+    public void onResponse(Call<Messages> call, Response<Messages> response) {
+        Messages body=response.body();
         callbacks.OnSuccess(body);
     }
 
     @Override
-    public void onFailure(Call<HashMap> call, Throwable t) {
+    public void onFailure(Call<Messages> call, Throwable t) {
         callbacks.OnFailure(t.getMessage());
     }
 }

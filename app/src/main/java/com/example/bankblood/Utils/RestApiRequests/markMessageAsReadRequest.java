@@ -16,7 +16,7 @@ import retrofit2.Response;
  * Created by E610 on 3/30/2018.
  */
 
-public class markMessageAsReadRequest extends FetchData implements Callback<HashMap> {
+public class markMessageAsReadRequest extends FetchData implements Callback<Message> {
     int id;
     public markMessageAsReadRequest(int id){
 
@@ -25,18 +25,18 @@ public class markMessageAsReadRequest extends FetchData implements Callback<Hash
     public void start() {
         retrofit= ApiClient.getClient();
         apiInterface=retrofit.create(ApiInterface.class);
-        Call<HashMap>  newMessage= apiInterface.markMessageAsRead(id);
+        Call<Message>  newMessage= apiInterface.markMessageAsRead(id);
         newMessage.enqueue(this);
     }
 
     @Override
-    public void onResponse(Call<HashMap> call, Response<HashMap> response) {
-        HashMap body=response.body();
+    public void onResponse(Call<Message> call, Response<Message> response) {
+        Message body=response.body();
         callbacks.OnSuccess(body);
     }
 
     @Override
-    public void onFailure(Call<HashMap> call, Throwable t) {
+    public void onFailure(Call<Message> call, Throwable t) {
         callbacks.OnFailure(t.getMessage());
     }
 }

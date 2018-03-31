@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bankblood.Fragments.HomeFragment"
+    android:orientation="vertical"
+    android:background="@drawable/app_background">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="70dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:src="@drawable/app_logo"
+        android:layout_marginBottom="7dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/recycler"
+        android:layout_gravity="center_horizontal">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|center">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تبرع"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:background="@android:color/holo_red_dark"
+        android:textColor="@android:color/darker_gray"
+        android:id="@+id/btn_donate"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="بحث عن متبرع"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:background="@android:color/holo_red_dark"
+        android:textColor="@android:color/darker_gray"
+        android:id="@+id/btn_search"/>
+    </LinearLayout>
+</FrameLayout>

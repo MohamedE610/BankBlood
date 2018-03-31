@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.bankblood.R;
+import com.example.bankblood.Utils.MySharedPreferences;
 
 public class SplashActivity extends AppCompatActivity {
 
     /** Duration of wait **/
     private final int SPLASH_DISPLAY_LENGTH = 2000;
+
 
 
     @Override
@@ -22,7 +24,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //Create an Intent that will start the Menu-Activity.
-                Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                MySharedPreferences.setUpMySharedPreferences(SplashActivity.this);
+                MySharedPreferences.setUserSetting("id","3");
+                Intent mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();
             }

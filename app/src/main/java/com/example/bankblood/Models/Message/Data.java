@@ -23,6 +23,9 @@ public class Data implements Serializable
     @SerializedName("to")
     @Expose
     public String to;
-    private final static long serialVersionUID = 7155920155447028681L;
+    @SerializedName("read")
+    @Expose
+    public Boolean read;
+    private final static long serialVersionUID = 4765875049896285252L;
 
 }

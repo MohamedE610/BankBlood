@@ -11,7 +11,7 @@ public class Donners implements Serializable
 
     @SerializedName("data")
     @Expose
-    public List<Datum> data = null;
+    public List<DonnerData> data = null;
     private final static long serialVersionUID = -192547757537046914L;
 
 }
