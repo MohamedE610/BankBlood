@@ -119,11 +119,13 @@ public class DonateDialog extends Dialog implements View.OnClickListener {
             @Override
             public void OnSuccess(Object obj) {
                 Toast.makeText(c, "العملية تمت بنجاح", Toast.LENGTH_SHORT).show();
+                cancel();
             }
 
             @Override
             public void OnFailure(Object obj) {
                 Toast.makeText(c, "لقد حدث خطاء الرجاء اعادة المحاولة ", Toast.LENGTH_SHORT).show();
+                cancel();
             }
         });
 

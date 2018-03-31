@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.bankblood.Activities.ProfileActivity;
 import com.example.bankblood.Adapters.DonnersAdapter;
@@ -111,12 +112,14 @@ public class HomeFragment extends Fragment implements Callbacks, DonnersAdapter.
         searchDialog.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
+
+                Toast.makeText(getActivity(), "جارى البحث", Toast.LENGTH_SHORT).show();
                 displayData(obj);
             }
 
             @Override
             public void OnFailure(Object obj) {
-
+                Toast.makeText(getActivity(), "لقد حدث خطاء", Toast.LENGTH_SHORT).show();
             }
         });
         searchDialog.show();

@@ -29,12 +29,29 @@ import retrofit2.http.Path;
 
 public interface ApiInterface {
 
+
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @POST("/donners/{donner_id}")
+    @POST("donners/search")
+    Call<Donners> donnerSearch(@Body HashMap hashMap);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
+    @GET("donners/fb/{firebaseId}")
+    Call<Donner> getDonnerByFirebaseID(@Path("firebaseId") int firebaseId);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: "+ Constants.accessToken
+    })
+    @POST("donners/{donner_id}")
     Call<Donner> UpdateDonner(@Path("donner_id") int donner_id,@Body HashMap HASH_MAP);
 
     @Headers({
@@ -42,7 +59,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/regions/{region_id}")
+    @GET("regions/{region_id}")
     Call<Region> getRegionByID(@Path("region_id") int region_id);
 
     @Headers({
@@ -50,7 +67,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/cities/{city_id}")
+    @GET("cities/{city_id}")
     Call<City> getCityByID(@Path("city_id") int city_id);
 
 
@@ -59,7 +76,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/bloodtypes")
+    @GET("bloodtypes")
     Call<BloodTypes> fetchBloodTypes();
 
 
@@ -68,7 +85,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/bloodtypes/{blood_id}")
+    @GET("bloodtypes/{blood_id}")
     Call<BloodTypeFilter> filterDonnersByBloodType(@Path("blood_id")int blood_id);
 
 
@@ -78,7 +95,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/regions")
+    @GET("regions")
     Call<Regions> fetchRegions();
 
 
@@ -88,7 +105,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/cities")
+    @GET("cities")
     Call<Cities> fetchCities();
 
 
@@ -97,7 +114,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners")
+    @GET("donners")
     Call<Donners> fetchDonners();
 
     @Headers({
@@ -105,7 +122,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @POST("/donners")
+    @POST("donners")
     Call<HashMap> addDonner(@Body HashMap hashMap);
 
     @Headers({
@@ -113,7 +130,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners/{donner_id}")
+    @GET("donners/{donner_id}")
     Call<Donner> getDonnerByID(@Path("donner_id") int donner_id);
 
     @Headers({
@@ -121,7 +138,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners/{donner_id}/outgoingMessages")
+    @GET("donners/{donner_id}/outgoingMessages")
     Call<Messages> getOutgoingMessages(@Path("donner_id") int donner_id);
 
 
@@ -130,7 +147,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners/{donner_id}/incomingMessages")
+    @GET("donners/{donner_id}/incomingMessages")
     Call<Messages> getIncomingMessages(@Path("donner_id") int donner_id);
 
     @Headers({
@@ -138,7 +155,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners/{donner_id}/donate")
+    @GET("donners/{donner_id}/donate")
     Call<HashMap> addDonation(@Path("donner_id") int donner_id);
 
     @Headers({
@@ -146,7 +163,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners/{donner_id}/donated")
+    @GET("donners/{donner_id}/donated")
     Call<HashMap> donationApprroved(@Path("donner_id") int donner_id);
 
     @Headers({
@@ -154,7 +171,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/donners/{donner_id}/cancelDonation")
+    @GET("donners/{donner_id}/cancelDonation")
     Call<HashMap> cancelDonation(@Path("donner_id") int donner_id);
 
     @Headers({
@@ -162,7 +179,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @DELETE("/donners/{donner_id}/delete")
+    @DELETE("donners/{donner_id}/delete")
     Call<HashMap> deleteDonners(@Path("donner_id") int donner_id);
 
 
@@ -172,7 +189,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @POST("/inbox/newMessage")
+    @POST("inbox/newMessage")
     Call<HashMap> newMessage(@Body HashMap hashMap);
 
     @Headers({
@@ -180,7 +197,7 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("/inbox/{inbox_id}")
+    @GET("inbox/{inbox_id}")
     Call<Message> getMessageByID(@Path("inbox_id") int inbox_id);
 
     @Headers({
@@ -188,6 +205,6 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @DELETE("/inbox/{inbox_id}/read")
+    @DELETE("inbox/{inbox_id}/read")
     Call<Message> markMessageAsRead(@Path("inbox_id") int inbox_id);
 }

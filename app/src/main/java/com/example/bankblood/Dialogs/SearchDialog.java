@@ -13,13 +13,18 @@ import android.widget.Spinner;
 
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
 import com.example.bankblood.Models.Cities.Cities;
+import com.example.bankblood.Models.Region.Region;
 import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
+import com.example.bankblood.Utils.RestApiRequests.DonnerSearchRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchCitiesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
 import com.example.bankblood.Utils.RestApiRequests.FilterDonnersByBloodTypeRequest;
+import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
+
+import java.util.HashMap;
 
 
 /**
@@ -67,7 +72,6 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
 
         getBloodTypes();
         getRegions();
-        getCities();
 
         /*createBloodTypeSpinner();
         createCitySpinner();
@@ -76,19 +80,19 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
 
     }
 
-    private void getCities() {
-        FetchCitiesRequest fetchCitiesRequest =new FetchCitiesRequest();
-        fetchCitiesRequest.setCallbacks(new Callbacks() {
+    private void getCities(int area_id) {
+
+        GetRegionByIDRequest getRegionByIDRequest =new GetRegionByIDRequest(area_id);
+        getRegionByIDRequest.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
-                Cities cities=(Cities)obj;
-                spinnerCityData=new String[cities.data.size()];
-                cityValues=new String[cities.data.size()];
-                for (int i = 0; i <cities.data.size() ; i++) {
-                    spinnerCityData[i]=cities.data.get(i).name;
-                    cityValues[i]=cities.data.get(i).id+"";
+                Region region=(Region) obj;
+                spinnerCityData=new String[region.data.cities.data.size()];
+                cityValues=new String[region.data.cities.data.size()];
+                for (int i = 0; i <region.data.cities.data.size() ; i++) {
+                    spinnerCityData[i]=region.data.cities.data.get(i).name;
+                    cityValues[i]=region.data.cities.data.get(i).id+"";
                 }
-
                 createCitySpinner();
             }
 
@@ -97,7 +101,7 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
 
             }
         });
-        fetchCitiesRequest.start();
+        getRegionByIDRequest.start();
     }
 
     private void getRegions() {
@@ -167,6 +171,25 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
 
     private void okBtnWork() {
 
+        HashMap<String,String> hashMap=new HashMap<>();
+        hashMap.put("blood_type_id",bloodTypeStr);
+        hashMap.put("city_id",cityStr);
+        DonnerSearchRequest donnerSearchRequest=new DonnerSearchRequest(hashMap);
+        donnerSearchRequest.setCallbacks(new Callbacks() {
+            @Override
+            public void OnSuccess(Object obj) {
+                callbacks.OnSuccess(obj);
+                cancel();
+            }
+
+            @Override
+            public void OnFailure(Object obj) {
+                callbacks.OnFailure(obj);
+                cancel();
+            }
+        });
+        donnerSearchRequest.start();
+
     }
 
     String[] spinnerBloodTypeData;
@@ -202,6 +225,8 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 areaStr=areaValues[position];
+                int area_id=Integer.valueOf(areaStr);
+                getCities(area_id);
             }
 
             @Override

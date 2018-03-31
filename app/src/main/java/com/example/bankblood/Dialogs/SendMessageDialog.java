@@ -109,11 +109,13 @@ public class SendMessageDialog extends Dialog implements View.OnClickListener {
             @Override
             public void OnSuccess(Object obj) {
                 Toast.makeText(c, "تم ارسال الرسالة بنجاح", Toast.LENGTH_SHORT).show();
+                cancel();
             }
 
             @Override
             public void OnFailure(Object obj) {
                 Toast.makeText(c, "لقد حدث خطاء اثناء ارسال الرسالة الرجاء اعد المحاولة", Toast.LENGTH_SHORT).show();
+                cancel();
             }
         });
         newMessageRequest.start();

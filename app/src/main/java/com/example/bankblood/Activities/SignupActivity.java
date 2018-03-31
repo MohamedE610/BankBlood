@@ -16,49 +16,40 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.example.bankblood.Models.BloodTypes.BloodTypes;
+import com.example.bankblood.Models.Region.Region;
+import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseSignUp;
+import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
+import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
+import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 public class SignupActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     String name,phone,email,gender,bloodTypeStr,areaStr,cityStr;;
-
     Spinner spinnerBloodType,spinnerArea,spinnerCity;
-
     RadioButton maleRadioBtn,femaleRadioBtn;
-
     private EditText inputEmail, inputPassword,inputUserName,inputPhoneNum,inputPasswordConfirm;
-
     private Button btnSignIn, btnSignUp, btnResetPassword;
-
     private ProgressBar progressBar;
-
     //private FirebaseAuth auth;
-
     FirebaseSignUp firebaseSignUp;
 
-
-
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_signup);
 
         firebaseSignUp=new FirebaseSignUp();
 
-
-
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
-
-
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
+
         inputUserName = (EditText) findViewById(R.id.user_name);
         inputPhoneNum = (EditText) findViewById(R.id.phone_num);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -77,9 +68,13 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         spinnerArea=(Spinner)findViewById(R.id.spinner_area);
         spinnerCity=(Spinner)findViewById(R.id.spinner_city);
 
-        createBloodTypeSpinner();
+
+        getBloodTypes();
+        getRegions();
+
+        /*createBloodTypeSpinner();
         createCitySpinner();
-        createِAreaSpinner();
+        createِAreaSpinner();*/
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
 
@@ -175,24 +170,85 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
     }
 
+    private void getCities(int area_id) {
 
+        GetRegionByIDRequest getRegionByIDRequest =new GetRegionByIDRequest(area_id);
+        getRegionByIDRequest.setCallbacks(new Callbacks() {
+            @Override
+            public void OnSuccess(Object obj) {
+                Region region=(Region) obj;
+                spinnerCityData=new String[region.data.cities.data.size()];
+                cityValues=new String[region.data.cities.data.size()];
+                for (int i = 0; i <region.data.cities.data.size() ; i++) {
+                    spinnerCityData[i]=region.data.cities.data.get(i).name;
+                    cityValues[i]=region.data.cities.data.get(i).id+"";
+                }
+                createCitySpinner();
+            }
 
-    @Override
+            @Override
+            public void OnFailure(Object obj) {
 
-    protected void onResume() {
-
-        super.onResume();
-
-        progressBar.setVisibility(View.GONE);
-
+            }
+        });
+        getRegionByIDRequest.start();
     }
 
+    private void getRegions() {
+        FetchRegionsRequest fetchRegionsRequest=new FetchRegionsRequest();
+        fetchRegionsRequest.setCallbacks(new Callbacks() {
+            @Override
+            public void OnSuccess(Object obj) {
+                Regions regions=(Regions)obj;
+                spinnerAreaData=new String[regions.data.size()];
+                areaValues=new String[regions.data.size()];
+                for (int i = 0; i < regions.data.size(); i++) {
+                    spinnerAreaData[i]=regions.data.get(i).name;
+                    areaValues[i]=regions.data.get(i).id+"";
+                }
 
+                createِAreaSpinner();
+            }
 
+            @Override
+            public void OnFailure(Object obj) {
 
+            }
+        });
+        fetchRegionsRequest.start();
+    }
 
-    String[] spinnerBloodTypeData= {"A","A+","A-","B","B+","B-","O+","O-","AB","AB+","AB-"};
-    String[] bloodTypeValues={"A","A+","A-","B","B+","B-","O+","O-","AB","AB+","AB-"};
+    private void getBloodTypes() {
+        FetchBloodTypesRequest fetchBloodTypesRequest=new FetchBloodTypesRequest();
+        fetchBloodTypesRequest.setCallbacks(new Callbacks() {
+            @Override
+            public void OnSuccess(Object obj) {
+                BloodTypes bloodTypes=(BloodTypes)obj;
+                spinnerBloodTypeData=new String[bloodTypes.data.size()];
+                bloodTypeValues=new String[bloodTypes.data.size()];
+                for (int i = 0; i < bloodTypes.data.size(); i++) {
+                    spinnerBloodTypeData[i]=bloodTypes.data.get(i).name;
+                    bloodTypeValues[i]=bloodTypes.data.get(i).id+"";
+                }
+                createBloodTypeSpinner();
+            }
+
+            @Override
+            public void OnFailure(Object obj) {
+
+            }
+        });
+        fetchBloodTypesRequest.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    String[] spinnerBloodTypeData;
+    String[] bloodTypeValues;
     private void createBloodTypeSpinner(){
         ArrayAdapter<String> SpinnerAdapter=new ArrayAdapter<String>(this,R.layout.spinner_item,spinnerBloodTypeData);
         spinnerBloodType.setAdapter(SpinnerAdapter);
@@ -214,8 +270,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
 
 
-    String[] spinnerAreaData={"الثالثة","الثانية","الاولى"};
-    String[] areaValues={"الرياض","جده","الدوادمى"};
+    String[] spinnerAreaData;
+    String[] areaValues;
     private void createِAreaSpinner(){
         ArrayAdapter<String> SpinnerAdapter=new ArrayAdapter<String>(this,R.layout.spinner_item,spinnerAreaData);
         spinnerArea.setAdapter(SpinnerAdapter);
@@ -224,6 +280,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 areaStr=areaValues[position];
+                int area_id=Integer.valueOf(areaStr);
+                getCities(area_id);
             }
 
             @Override
@@ -233,8 +291,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         });
     }
 
-    String[] spinnerCityData={"الرياض","جده","الدوادمى"};
-    String[] cityValues={"الرياض","جده","الدوادمى"};
+    String[] spinnerCityData;
+    String[] cityValues;
     private void createCitySpinner(){
         ArrayAdapter<String> SpinnerAdapter=new ArrayAdapter<String>(this,R.layout.spinner_item,spinnerCityData);
         spinnerCity.setAdapter(SpinnerAdapter);

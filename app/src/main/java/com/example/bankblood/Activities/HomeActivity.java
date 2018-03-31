@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import com.example.bankblood.Dialogs.DonateDialog;
 import com.example.bankblood.Dialogs.MapSearchDialog;
 import com.example.bankblood.Dialogs.SearchDialog;
+import com.example.bankblood.Fragments.HomeFragment;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,6 +81,14 @@ public class HomeActivity extends AppCompatActivity
         };
 
 
+     addHomeFragment();
+
+    }
+
+    private void addHomeFragment() {
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        HomeFragment homeFragment=new HomeFragment();
+        fragmentManager.beginTransaction().add(android.R.id.content,homeFragment).commit();
     }
 
     //sign out method
