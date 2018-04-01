@@ -17,16 +17,21 @@ import android.widget.Toast;
 
 
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
+import com.example.bankblood.Models.Donner.Donner;
 import com.example.bankblood.Models.Region.Region;
 import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseSignUp;
+import com.example.bankblood.Utils.MySharedPreferences;
+import com.example.bankblood.Utils.RestApiRequests.AddDonnersRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
 import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+
+import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -44,6 +49,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        MySharedPreferences.setUpMySharedPreferences(this);
         firebaseSignUp=new FirebaseSignUp();
 
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
@@ -142,12 +148,36 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                         Toast.makeText(SignupActivity.this, getString(R.string.createUserwithemailoncomplete) + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                         try {
+                            String device_token=MySharedPreferences.getUserSetting("device_token");
+                            HashMap<String,String> hashMap=new HashMap<>();
+                            hashMap.put("fb_id",task.getResult().getUser().getUid());
+                            hashMap.put("first_name",name);
+                            hashMap.put("last_name",name);
+                            hashMap.put("phone",phone);
+                            hashMap.put("blood_type_id",bloodTypeStr);
+                            hashMap.put("city_id",cityStr);
+                            hashMap.put("token",device_token);
+
+                            AddDonnersRequest addDonnersRequest=new AddDonnersRequest(hashMap);
+                            addDonnersRequest.setCallbacks(new Callbacks() {
+                                @Override
+                                public void OnSuccess(Object obj) {
+                                    Donner donner=(Donner)obj;
+                                    MySharedPreferences.setUserSetting("id",donner.data.id+"");
+                                    startActivity(new Intent(SignupActivity.this, HomeActivity.class));
+                                    finish();
+                                }
+
+                                @Override
+                                public void OnFailure(Object obj) {
+
+                                }
+                            });
+
+                            addDonnersRequest.start();
 
                         }catch (Exception e){}
 
-                        /*startActivity(new Intent(SignupActivity.this, HomeActivity.class));
-
-                        finish();*/
                     }
 
                     @Override

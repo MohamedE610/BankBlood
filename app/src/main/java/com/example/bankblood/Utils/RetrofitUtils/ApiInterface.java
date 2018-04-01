@@ -44,7 +44,7 @@ public interface ApiInterface {
             "Authorization: "+ Constants.accessToken
     })
     @GET("donners/fb/{firebaseId}")
-    Call<Donner> getDonnerByFirebaseID(@Path("firebaseId") int firebaseId);
+    Call<Donner> getDonnerByFirebaseID(@Path("firebaseId") String firebaseId);
 
     @Headers({
             "Accept: application/json",
@@ -123,7 +123,7 @@ public interface ApiInterface {
             "Authorization: "+ Constants.accessToken
     })
     @POST("donners")
-    Call<HashMap> addDonner(@Body HashMap hashMap);
+    Call<Donner> addDonner(@Body HashMap hashMap);
 
     @Headers({
             "Accept: application/json",

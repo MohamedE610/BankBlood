@@ -16,9 +16,9 @@ import retrofit2.Response;
 public class GetDonnerByFirebaseIDRequest extends FetchData implements Callback<Donner> {
 
 
-    int id;
+    String id;
 
-    public GetDonnerByFirebaseIDRequest(int id){
+    public GetDonnerByFirebaseIDRequest(String id){
 
         this.id=id;
     }

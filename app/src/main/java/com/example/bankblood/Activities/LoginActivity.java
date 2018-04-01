@@ -11,9 +11,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.bankblood.Models.Donner.Donner;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseSignIn;
+import com.example.bankblood.Utils.MySharedPreferences;
+import com.example.bankblood.Utils.RestApiRequests.GetDonnerByFirebaseIDRequest;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -91,9 +96,29 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseSignIn.setCallbacks(new Callbacks() {
                     @Override
                     public void OnSuccess(Object obj) {
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
+                        Task<AuthResult> task = (Task<AuthResult>) obj;
+                        String firebase_id=task.getResult().getUser().getUid();
+
+                        GetDonnerByFirebaseIDRequest getDonnerByFirebaseIDRequest=new GetDonnerByFirebaseIDRequest(firebase_id);
+                        getDonnerByFirebaseIDRequest.setCallbacks(new Callbacks() {
+                            @Override
+                            public void OnSuccess(Object obj) {
+
+                                Donner donner=(Donner)obj;
+                                MySharedPreferences.setUserSetting("id",donner.data.id+"");
+
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                                Toast.makeText(LoginActivity.this, "welcome ^ ^ ", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void OnFailure(Object obj) {
+                                Toast.makeText(LoginActivity.this, "please, try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        getDonnerByFirebaseIDRequest.start();
                     }
 
                     @Override
@@ -107,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
                 firebaseSignIn.signInWithFirebase(email,password);
-
             }
         });
 
