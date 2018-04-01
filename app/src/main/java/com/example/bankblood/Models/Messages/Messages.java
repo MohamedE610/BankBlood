@@ -11,7 +11,7 @@ public class Messages implements Serializable
 
     @SerializedName("data")
     @Expose
-    public List<Datum> data = null;
+    public List<MessageData> data = null;
     private final static long serialVersionUID = 7673202712968580049L;
 
 }

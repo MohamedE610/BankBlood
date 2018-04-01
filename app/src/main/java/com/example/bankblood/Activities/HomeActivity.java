@@ -23,6 +23,7 @@ import com.example.bankblood.Dialogs.SearchDialog;
 import com.example.bankblood.Fragments.HomeFragment;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
+import com.example.bankblood.Utils.MySharedPreferences;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -43,6 +44,7 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        MySharedPreferences.setUpMySharedPreferences(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,16 +81,13 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         };
-
-
      addHomeFragment();
-
     }
 
     private void addHomeFragment() {
         FragmentManager fragmentManager=getSupportFragmentManager();
         HomeFragment homeFragment=new HomeFragment();
-        fragmentManager.beginTransaction().add(android.R.id.content,homeFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.container,homeFragment).commit();
     }
 
     //sign out method
@@ -164,6 +163,9 @@ public class HomeActivity extends AppCompatActivity
 
     private void profileMethod(){
         Intent intent=new Intent(this,ProfileActivity.class);
+        intent.setAction("me");
+        int id=Integer.valueOf(MySharedPreferences.getUserSetting("id"));
+        intent.putExtra("person_id",id);
         startActivity(intent);
     }
 

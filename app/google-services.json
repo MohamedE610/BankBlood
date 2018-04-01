@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "591028593940",
-    "firebase_url": "https://gms-app-c07f7.firebaseio.com",
-    "project_id": "gms-app-c07f7",
-    "storage_bucket": "gms-app-c07f7.appspot.com"
+    "project_number": "173662820294",
+    "firebase_url": "https://bankblood-c3cba.firebaseio.com",
+    "project_id": "bankblood-c3cba",
+    "storage_bucket": "bankblood-c3cba.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:591028593940:android:36a6ca2ecea6fdce",
+        "mobilesdk_app_id": "1:173662820294:android:36a6ca2ecea6fdce",
         "android_client_info": {
           "package_name": "com.example.bankblood"
         }
       },
       "oauth_client": [
         {
-          "client_id": "591028593940-mup8q1mem7itahrt798qvelhptv5hmu7.apps.googleusercontent.com",
+          "client_id": "173662820294-jldol4h6inpmelpla9d04v5r74k83fmr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCccp170RknswelHRx0NPIxIE8u_v_c2h0"
+          "current_key": "AIzaSyDD9c_Or-K1cSSXazf6SEDJPOhWl6OT8TE"
         }
       ],
       "services": {

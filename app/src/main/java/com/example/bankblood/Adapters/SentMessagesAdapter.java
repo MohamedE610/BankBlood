@@ -48,7 +48,7 @@ public class SentMessagesAdapter extends RecyclerView.Adapter<SentMessagesAdapte
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        String name=messages.data.get(position).to;
+        String name=messages.data.get(position).to.name;
         holder.nameTextView.setText(name);
 
         String title=messages.data.get(position).title;
@@ -83,7 +83,7 @@ public class SentMessagesAdapter extends RecyclerView.Adapter<SentMessagesAdapte
             super(itemView);
             itemView.setOnClickListener(this);
             nameTextView = (TextView) itemView.findViewById(R.id.text_name);
-            nameTextView = (TextView) itemView.findViewById(R.id.text_msg);
+            titleTextView = (TextView) itemView.findViewById(R.id.text_msg);
             cardView = (CardView) itemView.findViewById(R.id.card);
 
         }

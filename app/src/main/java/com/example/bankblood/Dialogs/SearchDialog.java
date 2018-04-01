@@ -3,6 +3,7 @@ package com.example.bankblood.Dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -87,11 +88,13 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
             @Override
             public void OnSuccess(Object obj) {
                 Region region=(Region) obj;
-                spinnerCityData=new String[region.data.cities.data.size()];
-                cityValues=new String[region.data.cities.data.size()];
-                for (int i = 0; i <region.data.cities.data.size() ; i++) {
-                    spinnerCityData[i]=region.data.cities.data.get(i).name;
-                    cityValues[i]=region.data.cities.data.get(i).id+"";
+                spinnerCityData=new String[region.data.cities.data.size()+1];
+                cityValues=new String[region.data.cities.data.size()+1];
+                spinnerCityData[0]="";
+                cityValues[0]="";
+                for (int i = 1; i <region.data.cities.data.size()+1 ; i++) {
+                    spinnerCityData[i]=region.data.cities.data.get(i-1).name;
+                    cityValues[i]=region.data.cities.data.get(i-1).id+"";
                 }
                 createCitySpinner();
             }
@@ -110,11 +113,14 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
             @Override
             public void OnSuccess(Object obj) {
                 Regions regions=(Regions)obj;
-                spinnerAreaData=new String[regions.data.size()];
-                areaValues=new String[regions.data.size()];
-                for (int i = 0; i < regions.data.size(); i++) {
-                    spinnerAreaData[i]=regions.data.get(i).name;
-                    areaValues[i]=regions.data.get(i).id+"";
+                spinnerAreaData=new String[regions.data.size()+1];
+                areaValues=new String[regions.data.size()+1];
+                spinnerAreaData[0]="";
+                areaValues[0]="";
+
+                for (int i = 1; i < regions.data.size()+1; i++) {
+                    spinnerAreaData[i]=regions.data.get(i-1).name;
+                    areaValues[i]=regions.data.get(i-1).id+"";
                 }
 
                 createِAreaSpinner();
@@ -137,6 +143,11 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                 spinnerBloodTypeData=new String[bloodTypes.data.size()];
                 bloodTypeValues=new String[bloodTypes.data.size()];
                 for (int i = 0; i < bloodTypes.data.size(); i++) {
+                    if(i==0){
+                        spinnerBloodTypeData[i]="";
+                        bloodTypeValues[i]="";
+                        continue;
+                    }
                     spinnerBloodTypeData[i]=bloodTypes.data.get(i).name;
                     bloodTypeValues[i]=bloodTypes.data.get(i).id+"";
                 }
@@ -170,6 +181,9 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
     }
 
     private void okBtnWork() {
+
+        if(TextUtils.isEmpty(cityStr)&&TextUtils.isEmpty(bloodTypeStr))
+            return;
 
         HashMap<String,String> hashMap=new HashMap<>();
         hashMap.put("blood_type_id",bloodTypeStr);
@@ -225,8 +239,13 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 areaStr=areaValues[position];
-                int area_id=Integer.valueOf(areaStr);
-                getCities(area_id);
+                try {
+
+                    int area_id = Integer.valueOf(areaStr);
+                    getCities(area_id);
+
+                }catch (Exception e){}
+
             }
 
             @Override

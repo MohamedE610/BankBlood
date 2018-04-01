@@ -11,7 +11,7 @@ public class OutgoingMessages implements Serializable
 
     @SerializedName("data")
     @Expose
-    public List<Object> data = null;
+    public List<Datum> data = null;
     private final static long serialVersionUID = -5242426487832947982L;
 
 }

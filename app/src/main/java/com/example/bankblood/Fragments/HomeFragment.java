@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements Callbacks, DonnersAdapter.
     public void ItemClicked(View v, int position) {
         Intent intent=new Intent(getActivity(),ProfileActivity.class);
         DonnerData donnerData=donners.data.get(position);
-        intent.putExtra("donner",donnerData);
+        intent.putExtra("person_id",donnerData.id);
         startActivity(intent);
     }
 

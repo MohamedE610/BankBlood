@@ -2,6 +2,9 @@
 package com.example.bankblood.Models.Message;
 
 import java.io.Serializable;
+
+import com.example.bankblood.Models.Messages.From;
+import com.example.bankblood.Models.Messages.To;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,10 +22,10 @@ public class Data implements Serializable
     public String body;
     @SerializedName("from")
     @Expose
-    public String from;
+    public From from;
     @SerializedName("to")
     @Expose
-    public String to;
+    public To to;
     @SerializedName("read")
     @Expose
     public Boolean read;

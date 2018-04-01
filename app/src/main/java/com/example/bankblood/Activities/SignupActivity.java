@@ -207,11 +207,13 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
             @Override
             public void OnSuccess(Object obj) {
                 Region region=(Region) obj;
-                spinnerCityData=new String[region.data.cities.data.size()];
-                cityValues=new String[region.data.cities.data.size()];
-                for (int i = 0; i <region.data.cities.data.size() ; i++) {
-                    spinnerCityData[i]=region.data.cities.data.get(i).name;
-                    cityValues[i]=region.data.cities.data.get(i).id+"";
+                spinnerCityData=new String[region.data.cities.data.size()+1];
+                cityValues=new String[region.data.cities.data.size()+1];
+                spinnerCityData[0]="";
+                cityValues[0]="";
+                for (int i = 1; i <region.data.cities.data.size()+1 ; i++) {
+                    spinnerCityData[i]=region.data.cities.data.get(i-1).name;
+                    cityValues[i]=region.data.cities.data.get(i-1).id+"";
                 }
                 createCitySpinner();
             }
@@ -230,11 +232,14 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
             @Override
             public void OnSuccess(Object obj) {
                 Regions regions=(Regions)obj;
-                spinnerAreaData=new String[regions.data.size()];
-                areaValues=new String[regions.data.size()];
-                for (int i = 0; i < regions.data.size(); i++) {
-                    spinnerAreaData[i]=regions.data.get(i).name;
-                    areaValues[i]=regions.data.get(i).id+"";
+                spinnerAreaData=new String[regions.data.size()+1];
+                areaValues=new String[regions.data.size()+1];
+                spinnerAreaData[0]="";
+                areaValues[0]="";
+
+                for (int i = 1; i < regions.data.size()+1; i++) {
+                    spinnerAreaData[i]=regions.data.get(i-1).name;
+                    areaValues[i]=regions.data.get(i-1).id+"";
                 }
 
                 createِAreaSpinner();
@@ -257,6 +262,11 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                 spinnerBloodTypeData=new String[bloodTypes.data.size()];
                 bloodTypeValues=new String[bloodTypes.data.size()];
                 for (int i = 0; i < bloodTypes.data.size(); i++) {
+                    if(i==0){
+                        spinnerBloodTypeData[0]="";
+                        bloodTypeValues[0]="";
+                        continue;
+                    }
                     spinnerBloodTypeData[i]=bloodTypes.data.get(i).name;
                     bloodTypeValues[i]=bloodTypes.data.get(i).id+"";
                 }

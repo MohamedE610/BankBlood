@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum implements Serializable
+public class MessageData implements Serializable
 {
 
     @SerializedName("id")
@@ -19,13 +19,13 @@ public class Datum implements Serializable
     public String body;
     @SerializedName("from")
     @Expose
-    public String from;
+    public From from;
     @SerializedName("to")
     @Expose
-    public String to;
+    public To to;
     @SerializedName("read")
     @Expose
     public Boolean read;
-    private final static long serialVersionUID = -3958020865578614551L;
+    private final static long serialVersionUID = -2734589295894332564L;
 
 }

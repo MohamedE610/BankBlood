@@ -16,9 +16,9 @@ import retrofit2.Response;
  * Created by E610 on 3/30/2018.
  */
 
-public class markMessageAsReadRequest extends FetchData implements Callback<Message> {
+public class MarkMessageAsReadRequest extends FetchData implements Callback<Message> {
     int id;
-    public markMessageAsReadRequest(int id){
+    public MarkMessageAsReadRequest(int id){
 
         this.id=id;
     }

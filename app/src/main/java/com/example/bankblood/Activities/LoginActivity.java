@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         //auth = FirebaseAuth.getInstance();
+        MySharedPreferences.setUpMySharedPreferences(this);
         firebaseSignIn=new FirebaseSignIn();
 
         //if (auth.getCurrentUser() != null) {

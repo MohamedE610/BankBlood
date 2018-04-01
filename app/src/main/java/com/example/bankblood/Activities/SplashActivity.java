@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //Create an Intent that will start the Menu-Activity.
-               /* MySharedPreferences.setUpMySharedPreferences(SplashActivity.this);
+                /*MySharedPreferences.setUpMySharedPreferences(SplashActivity.this);
                 MySharedPreferences.setUserSetting("id","3");*/
                 Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
                 SplashActivity.this.startActivity(mainIntent);

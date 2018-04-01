@@ -47,12 +47,16 @@ public class ReceivedMessagesAdapter extends RecyclerView.Adapter<ReceivedMessag
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        String name=messages.data.get(position).from;
+        String name=messages.data.get(position).from.name;
         holder.nameTextView.setText(name);
 
         String title=messages.data.get(position).title;
         holder.titleTextView.setText(title);
 
+        if(messages.data.get(position).read)
+            holder.readView.setVisibility(View.GONE);
+        else
+            holder.readView.setVisibility(View.VISIBLE);
 
         setAnimation(holder.cardView, position);
     }
@@ -76,14 +80,17 @@ public class ReceivedMessagesAdapter extends RecyclerView.Adapter<ReceivedMessag
         TextView nameTextView;
         TextView titleTextView;
         CardView cardView;
+        View readView;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             nameTextView = (TextView) itemView.findViewById(R.id.text_name);
-            nameTextView = (TextView) itemView.findViewById(R.id.text_msg);
+            titleTextView = (TextView) itemView.findViewById(R.id.text_msg);
             cardView = (CardView) itemView.findViewById(R.id.card);
+            readView = (View) itemView.findViewById(R.id.read_view);
+
 
         }
 
