@@ -25,11 +25,30 @@
 
                 <!--android:imeActionId="@+id/login"-->
                 <EditText
-                    android:id="@+id/user_name"
+                    android:id="@+id/first_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="true"
-                    android:hint="اسم المستخدم"
+                    android:hint=" الاسم الاول"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--android:imeActionId="@+id/login"-->
+                <EditText
+                    android:id="@+id/last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint=" الاسم الاخير"
                     android:imeOptions="actionUnspecified"
                     android:inputType="text"
                     android:maxLines="1"

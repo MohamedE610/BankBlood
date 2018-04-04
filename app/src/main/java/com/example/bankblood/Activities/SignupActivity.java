@@ -35,10 +35,10 @@ import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
-    String name,phone,email,gender,bloodTypeStr,areaStr,cityStr;;
+    String firstName,lastName,phone,email,gender,bloodTypeStr,areaStr,cityStr;;
     Spinner spinnerBloodType,spinnerArea,spinnerCity;
     RadioButton maleRadioBtn,femaleRadioBtn;
-    private EditText inputEmail, inputPassword,inputUserName,inputPhoneNum,inputPasswordConfirm;
+    private EditText inputEmail, inputPassword,inputFirstName,inputPhoneNum,inputPasswordConfirm,inputLastName;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     //private FirebaseAuth auth;
@@ -56,7 +56,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
 
-        inputUserName = (EditText) findViewById(R.id.user_name);
+        inputFirstName = (EditText) findViewById(R.id.first_name);
+        inputLastName = (EditText) findViewById(R.id.last_name);
         inputPhoneNum = (EditText) findViewById(R.id.phone_num);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
@@ -103,7 +104,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
 
             @Override
             public void onClick(View v) {
-                name = inputUserName.getText().toString().trim();
+                firstName = inputFirstName.getText().toString().trim();
+                lastName = inputLastName.getText().toString().trim();
                 phone = inputPhoneNum.getText().toString().trim();
                 email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
@@ -124,8 +126,13 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                     return;
                 }
 
-                if (TextUtils.isEmpty(name)) {
-                    Toast.makeText(getApplicationContext(), "ادخل اسم المستخدم", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(firstName)) {
+                    Toast.makeText(getApplicationContext(), "ادخل الاسم الاول ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(lastName)) {
+                    Toast.makeText(getApplicationContext(), "ادخل الاسم الثانى ", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -151,8 +158,8 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                             String device_token=MySharedPreferences.getUserSetting("device_token");
                             HashMap<String,String> hashMap=new HashMap<>();
                             hashMap.put("fb_id",task.getResult().getUser().getUid());
-                            hashMap.put("first_name",name);
-                            hashMap.put("last_name",name);
+                            hashMap.put("first_name",firstName);
+                            hashMap.put("last_name",lastName);
                             hashMap.put("phone",phone);
                             hashMap.put("blood_type_id",bloodTypeStr);
                             hashMap.put("city_id",cityStr);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,14 +40,25 @@ public class ProfileActivity extends AppCompatActivity {
         FragmentManager fragmentManager=getSupportFragmentManager();
         ProfileFragment profileFragment=new ProfileFragment();
         profileFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().add(R.id.container,profileFragment).commit();
+
+        Fragment oldFragment=fragmentManager.findFragmentByTag("EditProfileFragment");
+        if(oldFragment!=null)
+            fragmentManager.beginTransaction().remove(oldFragment);
+
+        fragmentManager.beginTransaction().replace(R.id.container,profileFragment,"ProfileFragment").commit();
     }
 
     private void addEditProfileFragment(Bundle bundle) {
-      /* FragmentManager fragmentManager=getSupportFragmentManager();
+       FragmentManager fragmentManager=getSupportFragmentManager();
         EditProfileFragment  editProfileFragment=new EditProfileFragment();
         editProfileFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().add(R.id.container,editProfileFragment).commit();*/
+
+        Fragment oldFragment=fragmentManager.findFragmentByTag("ProfileFragment");
+        if(oldFragment!=null)
+            fragmentManager.beginTransaction().remove(oldFragment);
+
+        fragmentManager.beginTransaction().replace(R.id.container,editProfileFragment,"EditProfileFragment").commit();
+
     }
 
     @Override

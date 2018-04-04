@@ -1,6 +1,7 @@
 package com.example.bankblood.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,8 +17,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bankblood.Activities.ResetPasswordActivity;
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
 import com.example.bankblood.Models.Donner.Donner;
 import com.example.bankblood.Models.Region.Region;
@@ -28,16 +31,20 @@ import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
 import com.example.bankblood.Utils.RestApiRequests.GetDonnerByIDRequest;
 import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
+import com.example.bankblood.Utils.RestApiRequests.UpdateDonnerRequest;
+
+import java.util.HashMap;
 
 
 public class EditProfileFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
-    String name,phone,email,gender,bloodTypeStr,areaStr,cityStr;;
+    String firstName,lastName,phone,email,gender,bloodTypeStr,areaStr,cityStr;;
     Spinner spinnerBloodType,spinnerArea,spinnerCity;
     RadioButton maleRadioBtn,femaleRadioBtn;
-    private EditText inputEmail, inputPassword,inputUserName,inputPhoneNum,inputPasswordConfirm;
+    private EditText inputEmail,inputFirstName,inputLastName,inputPhoneNum;
     private Button btnOk, btnCancel;
     private ProgressBar progressBar;
+    TextView changePassword;
 
     Bundle bundle;
 
@@ -54,17 +61,19 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
         bundle=getArguments();
 
-        btnOk = (Button) view.findViewById(R.id.sign_in_button);
-        btnCancel = (Button) view.findViewById(R.id.btn_reset_password);
+        btnOk = (Button) view.findViewById(R.id.btn_ok);
+        btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
 
-        inputUserName = (EditText) view.findViewById(R.id.user_name);
+        changePassword=(TextView)view.findViewById(R.id.change_password);
+        changePassword.setOnClickListener(this);
+
+        inputFirstName = (EditText) view.findViewById(R.id.first_name);
+        inputLastName = (EditText) view.findViewById(R.id.last_name);
         inputPhoneNum = (EditText) view.findViewById(R.id.phone_num);
         inputEmail = (EditText) view.findViewById(R.id.email);
-        inputPassword = (EditText) view.findViewById(R.id.password);
-        inputPasswordConfirm = (EditText) view.findViewById(R.id.password_confirm);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
@@ -84,6 +93,7 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
 
         getDonnerData();
+
         return view;
     }
 
@@ -93,10 +103,35 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
         getDonnerByIDRequest.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
-                Donner donner=(Donner)obj;
-                inputUserName.setText(donner.data.name);
-                inputPhoneNum.setText(donner.data.phone);
-                //ToDO email must be exist
+                try {
+                    Donner donner = (Donner) obj;
+                    String[] strs = donner.data.name.split(" ");
+                    inputFirstName.setText(strs[0]);
+                    inputLastName.setText(strs[1]);
+                    inputPhoneNum.setText(donner.data.phone);
+                    bloodTypeStr=donner.data.bloodType;
+
+                    for (int i = 0; i <spinnerBloodTypeData.length ; i++) {
+                        if(bloodTypeStr.equals(spinnerBloodTypeData[i])){
+                            spinnerBloodType.setSelection(i);
+                        }
+                    }
+
+                    cityStr=donner.data.city;
+                    for (int i = 0; i <spinnerCityData.length ; i++) {
+                        if(cityStr.equals(spinnerCityData[i])){
+                            spinnerCity.setSelection(i);
+                        }
+                    }
+
+                    areaStr=donner.data.region;
+                    for (int i = 0; i <spinnerAreaData.length ; i++) {
+                        if(cityStr.equals(spinnerAreaData[i])){
+                            spinnerArea.setSelection(i);
+                        }
+                    }
+
+                }catch (Exception e){}
 
             }
 
@@ -221,9 +256,15 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+
                 areaStr=areaValues[position];
-                int area_id=Integer.valueOf(areaStr);
-                getCities(area_id);
+                try {
+
+                    int area_id = Integer.valueOf(areaStr);
+                    getCities(area_id);
+
+                }catch (Exception e){}
+
             }
 
             @Override
@@ -280,8 +321,15 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
             case R.id.btn_cancel:
                 cancelMethod();
                 break;
+            case R.id.change_password:
+                changePasswordMethod();
+                break;
 
         }
+    }
+
+    private void changePasswordMethod() {
+        getActivity().startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
     }
 
     private void cancelMethod() {
@@ -290,13 +338,41 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
     private void okMethod() {
 
-        addProfileFragment(bundle);
+        int id=bundle.getInt("person_id");
+        HashMap<String,String> hashMap=new HashMap<>();
+        hashMap.put("first_name",firstName);
+        hashMap.put("last_name",lastName);
+        hashMap.put("phone",phone);
+        hashMap.put("blood_type_id",bloodTypeStr);
+        hashMap.put("city_id",cityStr);
+
+        UpdateDonnerRequest updateDonnerRequest=new UpdateDonnerRequest(hashMap,id);
+        updateDonnerRequest.setCallbacks(new Callbacks() {
+            @Override
+            public void OnSuccess(Object obj) {
+                Donner donner=(Donner)obj;
+                Toast.makeText(getActivity(), "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
+                addProfileFragment(bundle);
+            }
+
+            @Override
+            public void OnFailure(Object obj) {
+                Toast.makeText(getActivity(), "لقد حدث خطاء", Toast.LENGTH_SHORT).show();
+            }
+        });
+        updateDonnerRequest.start();
+
     }
 
     private void addProfileFragment(Bundle bundle) {
         FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
         ProfileFragment profileFragment=new ProfileFragment();
         profileFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().add(R.id.container,profileFragment).commit();
+
+        Fragment oldFragment=fragmentManager.findFragmentByTag("EditProfileFragment");
+        if(oldFragment!=null)
+            fragmentManager.beginTransaction().remove(oldFragment);
+
+        fragmentManager.beginTransaction().replace(R.id.container,profileFragment,"ProfileFragment").commit();
     }
 }
