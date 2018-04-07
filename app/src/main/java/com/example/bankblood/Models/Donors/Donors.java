@@ -1,17 +1,17 @@
 
-package com.example.bankblood.Models.Donners;
+package com.example.bankblood.Models.Donors;
 
 import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Donners implements Serializable
+public class Donors implements Serializable
 {
 
     @SerializedName("data")
     @Expose
-    public List<DonnerData> data = null;
+    public List<DonorData> data = null;
     private final static long serialVersionUID = -192547757537046914L;
 
 }

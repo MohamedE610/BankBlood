@@ -3,20 +3,18 @@ package com.example.bankblood.Dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bankblood.Models.Donner.Donner;
+import com.example.bankblood.Models.Donor.Donor;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.MySharedPreferences;
 import com.example.bankblood.Utils.RestApiRequests.AddDonationRequest;
-import com.example.bankblood.Utils.RestApiRequests.GetDonnerByIDRequest;
+import com.example.bankblood.Utils.RestApiRequests.GetDonorByIDRequest;
 
 
 /**
@@ -73,16 +71,16 @@ public class DonateDialog extends Dialog implements View.OnClickListener {
     }
 
     private void displayDonnerData() {
-        GetDonnerByIDRequest getDonnerByIDRequest=new GetDonnerByIDRequest(id);
-        getDonnerByIDRequest.setCallbacks(new Callbacks() {
+        GetDonorByIDRequest getDonorByIDRequest =new GetDonorByIDRequest(id);
+        getDonorByIDRequest.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
-                Donner donner=(Donner)obj;
-                userName.setText(donner.data.name);
-                phone.setText(donner.data.phone);
-                bloodType.setText(donner.data.bloodType);
-                area.setText(donner.data.region);
-                city.setText(donner.data.city);
+                Donor donor =(Donor)obj;
+                userName.setText(donor.data.name);
+                phone.setText(donor.data.phone);
+                bloodType.setText(donor.data.bloodType);
+                area.setText(donor.data.region);
+                city.setText(donor.data.city);
             }
 
             @Override
@@ -92,7 +90,7 @@ public class DonateDialog extends Dialog implements View.OnClickListener {
             }
 
         });
-        getDonnerByIDRequest.start();
+        getDonorByIDRequest.start();
     }
 
     @Override

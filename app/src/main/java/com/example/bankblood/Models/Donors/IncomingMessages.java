@@ -1,5 +1,5 @@
 
-package com.example.bankblood.Models.Donners;
+package com.example.bankblood.Models.Donors;
 
 import java.io.Serializable;
 import java.util.List;

@@ -41,9 +41,8 @@
                 android:focusableInTouchMode="true"
                 android:hint="الرسالة ...."
                 android:imeOptions="actionUnspecified"
-                android:inputType="text"
-                android:maxLines="10"
-                android:singleLine="false"
+                android:scrollbars="vertical"
+                android:inputType="textMultiLine|text"
                 android:nestedScrollingEnabled="true"
                 android:lines="10"
                 android:textColor="@android:color/black" />

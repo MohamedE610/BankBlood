@@ -7,8 +7,8 @@ import com.example.bankblood.Models.BloodTypeFilter.BloodTypeFilter;
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
 import com.example.bankblood.Models.Cities.Cities;
 import com.example.bankblood.Models.City.City;
-import com.example.bankblood.Models.Donner.Donner;
-import com.example.bankblood.Models.Donners.Donners;
+import com.example.bankblood.Models.Donor.Donor;
+import com.example.bankblood.Models.Donors.Donors;
 import com.example.bankblood.Models.Message.Message;
 import com.example.bankblood.Models.Messages.Messages;
 import com.example.bankblood.Models.Region.Region;
@@ -35,24 +35,24 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @POST("donners/search")
-    Call<Donners> donnerSearch(@Body HashMap hashMap);
+    @POST("donors/search")
+    Call<Donors> donorSearch(@Body HashMap hashMap);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/fb/{firebaseId}")
-    Call<Donner> getDonnerByFirebaseID(@Path("firebaseId") String firebaseId);
+    @GET("donors/fb/{firebaseId}")
+    Call<Donor> getDonorByFirebaseID(@Path("firebaseId") String firebaseId);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @POST("donners/{donner_id}")
-    Call<Donner> UpdateDonner(@Path("donner_id") int donner_id,@Body HashMap HASH_MAP);
+    @POST("donors/{donor_id}")
+    Call<Donor> UpdateDonor(@Path("donor_id") int donor_id,@Body HashMap HASH_MAP);
 
     @Headers({
             "Accept: application/json",
@@ -86,7 +86,7 @@ public interface ApiInterface {
             "Authorization: "+ Constants.accessToken
     })
     @GET("bloodtypes/{blood_id}")
-    Call<BloodTypeFilter> filterDonnersByBloodType(@Path("blood_id")int blood_id);
+    Call<BloodTypeFilter> filterDonorsByBloodType(@Path("blood_id")int blood_id);
 
 
 
@@ -114,32 +114,32 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners")
-    Call<Donners> fetchDonners();
+    @GET("donors")
+    Call<Donors> fetchDonors();
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @POST("donners")
-    Call<Donner> addDonner(@Body HashMap hashMap);
+    @POST("donors")
+    Call<Donor> addDonor(@Body HashMap hashMap);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/{donner_id}")
-    Call<Donner> getDonnerByID(@Path("donner_id") int donner_id);
+    @GET("donors/{donor_id}")
+    Call<Donor> getDonorByID(@Path("donor_id") int donor_id);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/{donner_id}/outgoingMessages")
-    Call<Messages> getOutgoingMessages(@Path("donner_id") int donner_id);
+    @GET("donors/{donor_id}/outgoingMessages")
+    Call<Messages> getOutgoingMessages(@Path("donor_id") int donor_id);
 
 
     @Headers({
@@ -147,40 +147,40 @@ public interface ApiInterface {
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/{donner_id}/incomingMessages")
-    Call<Messages> getIncomingMessages(@Path("donner_id") int donner_id);
+    @GET("donors/{donor_id}/incomingMessages")
+    Call<Messages> getIncomingMessages(@Path("donor_id") int donor_id);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/{donner_id}/donate")
-    Call<HashMap> addDonation(@Path("donner_id") int donner_id);
+    @GET("donors/{donor_id}/donate")
+    Call<HashMap> addDonation(@Path("donor_id") int donor_id);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/{donner_id}/donated")
-    Call<HashMap> donationApprroved(@Path("donner_id") int donner_id);
+    @GET("donors/{donor_id}/donated")
+    Call<HashMap> donationApprroved(@Path("donor_id") int donor_id);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @GET("donners/{donner_id}/cancelDonation")
-    Call<HashMap> cancelDonation(@Path("donner_id") int donner_id);
+    @GET("donors/{donor_id}/cancelDonation")
+    Call<HashMap> cancelDonation(@Path("donor_id") int donor_id);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json",
             "Authorization: "+ Constants.accessToken
     })
-    @DELETE("donners/{donner_id}/delete")
-    Call<HashMap> deleteDonners(@Path("donner_id") int donner_id);
+    @DELETE("donors/{donor_id}/delete")
+    Call<HashMap> deleteDonors(@Path("donor_id") int donor_id);
 
 
 

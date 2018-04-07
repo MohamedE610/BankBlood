@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,22 +15,22 @@ import com.example.bankblood.Activities.ProfileActivity;
 import com.example.bankblood.Adapters.DonnersAdapter;
 import com.example.bankblood.Dialogs.DonateDialog;
 import com.example.bankblood.Dialogs.SearchDialog;
-import com.example.bankblood.Models.Donners.DonnerData;
-import com.example.bankblood.Models.Donners.Donners;
+import com.example.bankblood.Models.Donors.DonorData;
+import com.example.bankblood.Models.Donors.Donors;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.NetworkState;
-import com.example.bankblood.Utils.RestApiRequests.FetchDonnersRequest;
+import com.example.bankblood.Utils.RestApiRequests.FetchDonorsRequest;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class HomeFragment extends Fragment implements Callbacks, DonnersAdapter.RecyclerViewClickListener, View.OnClickListener {
 
-    Donners donners;
+    Donors donors;
     DonnersAdapter donnersAdapter;
     RecyclerView recyclerView;
-    FetchDonnersRequest fetchDonnersRequest;
+    FetchDonorsRequest fetchDonorsRequest;
 
     Button btnDonate,btnSearch;
 
@@ -49,9 +48,9 @@ public class HomeFragment extends Fragment implements Callbacks, DonnersAdapter.
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
 
         if(NetworkState.ConnectionAvailable(getContext())){
-            fetchDonnersRequest=new FetchDonnersRequest();
-            fetchDonnersRequest.setCallbacks(this);
-            fetchDonnersRequest.start();
+            fetchDonorsRequest =new FetchDonorsRequest();
+            fetchDonorsRequest.setCallbacks(this);
+            fetchDonorsRequest.start();
         }
 
 
@@ -73,8 +72,8 @@ public class HomeFragment extends Fragment implements Callbacks, DonnersAdapter.
     }
 
     private void displayData(Object obj) {
-        donners=(Donners)obj;
-        donnersAdapter=new DonnersAdapter(donners,getContext());
+        donors =(Donors)obj;
+        donnersAdapter=new DonnersAdapter(donors,getContext());
         donnersAdapter.setClickListener(this);
         recyclerView.setAdapter(donnersAdapter);
         donnersAdapter.notifyDataSetChanged();
@@ -88,8 +87,8 @@ public class HomeFragment extends Fragment implements Callbacks, DonnersAdapter.
     @Override
     public void ItemClicked(View v, int position) {
         Intent intent=new Intent(getActivity(),ProfileActivity.class);
-        DonnerData donnerData=donners.data.get(position);
-        intent.putExtra("person_id",donnerData.id);
+        DonorData donorData = donors.data.get(position);
+        intent.putExtra("person_id", donorData.id);
         startActivity(intent);
     }
 

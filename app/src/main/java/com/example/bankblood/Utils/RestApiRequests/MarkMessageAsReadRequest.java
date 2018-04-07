@@ -1,12 +1,9 @@
 package com.example.bankblood.Utils.RestApiRequests;
 
-import com.example.bankblood.Models.Donners.Donners;
 import com.example.bankblood.Models.Message.Message;
 import com.example.bankblood.Utils.RetrofitUtils.ApiClient;
 import com.example.bankblood.Utils.RetrofitUtils.ApiInterface;
 import com.example.bankblood.Utils.RetrofitUtils.FetchData;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;

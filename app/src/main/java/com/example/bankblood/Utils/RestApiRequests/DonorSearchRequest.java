@@ -1,9 +1,11 @@
 package com.example.bankblood.Utils.RestApiRequests;
 
-import com.example.bankblood.Models.Donner.Donner;
+import com.example.bankblood.Models.Donors.Donors;
 import com.example.bankblood.Utils.RetrofitUtils.ApiClient;
 import com.example.bankblood.Utils.RetrofitUtils.ApiInterface;
 import com.example.bankblood.Utils.RetrofitUtils.FetchData;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,30 +15,30 @@ import retrofit2.Response;
  * Created by E610 on 3/30/2018.
  */
 
-public class GetDonnerByFirebaseIDRequest extends FetchData implements Callback<Donner> {
+public class DonorSearchRequest extends FetchData implements Callback<Donors> {
 
 
-    String id;
+    HashMap hashMap;
 
-    public GetDonnerByFirebaseIDRequest(String id){
+    public DonorSearchRequest(HashMap hashMap){
 
-        this.id=id;
+        this.hashMap=hashMap;
     }
     public void start() {
         retrofit= ApiClient.getClient();
         apiInterface=retrofit.create(ApiInterface.class);
-        Call<Donner> donnerByID = apiInterface.getDonnerByFirebaseID(id);
+        Call<Donors> donnerByID = apiInterface.donorSearch(hashMap);
         donnerByID.enqueue(this);
     }
 
     @Override
-    public void onResponse(Call<Donner> call, Response<Donner> response) {
-        Donner body=response.body();
+    public void onResponse(Call<Donors> call, Response<Donors> response) {
+        Donors body=response.body();
         callbacks.OnSuccess(body);
     }
 
     @Override
-    public void onFailure(Call<Donner> call, Throwable t) {
+    public void onFailure(Call<Donors> call, Throwable t) {
         callbacks.OnFailure(t.getMessage());
     }
 }

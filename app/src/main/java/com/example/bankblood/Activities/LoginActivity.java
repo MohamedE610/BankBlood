@@ -11,12 +11,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.bankblood.Models.Donner.Donner;
+import com.example.bankblood.Models.Donor.Donor;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseSignIn;
 import com.example.bankblood.Utils.MySharedPreferences;
-import com.example.bankblood.Utils.RestApiRequests.GetDonnerByFirebaseIDRequest;
+import com.example.bankblood.Utils.RestApiRequests.GetDonorByFirebaseIDRequest;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("تسجيل الدخول");
         //Get Firebase auth instance
         //auth = FirebaseAuth.getInstance();
         MySharedPreferences.setUpMySharedPreferences(this);
@@ -100,13 +101,13 @@ public class LoginActivity extends AppCompatActivity {
                         Task<AuthResult> task = (Task<AuthResult>) obj;
                         String firebase_id=task.getResult().getUser().getUid();
 
-                        GetDonnerByFirebaseIDRequest getDonnerByFirebaseIDRequest=new GetDonnerByFirebaseIDRequest(firebase_id);
-                        getDonnerByFirebaseIDRequest.setCallbacks(new Callbacks() {
+                        GetDonorByFirebaseIDRequest getDonorByFirebaseIDRequest =new GetDonorByFirebaseIDRequest(firebase_id);
+                        getDonorByFirebaseIDRequest.setCallbacks(new Callbacks() {
                             @Override
                             public void OnSuccess(Object obj) {
 
-                                Donner donner=(Donner)obj;
-                                MySharedPreferences.setUserSetting("id",donner.data.id+"");
+                                Donor donor =(Donor)obj;
+                                MySharedPreferences.setUserSetting("id", donor.data.id+"");
 
                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                 startActivity(intent);
@@ -119,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "please, try again", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        getDonnerByFirebaseIDRequest.start();
+                        getDonorByFirebaseIDRequest.start();
                     }
 
                     @Override

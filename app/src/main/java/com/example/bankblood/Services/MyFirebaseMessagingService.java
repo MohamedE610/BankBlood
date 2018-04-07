@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.bankblood.Activities.InboxActivity;
 import com.example.bankblood.R;
+import com.example.bankblood.Utils.MySharedPreferences;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -50,6 +51,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 //Set set=map.keySet();
                 //set.toArray();
                 JSONObject json = new JSONObject(sender);
+                MySharedPreferences.setUpMySharedPreferences(getApplicationContext());
+
+                int id=Integer.valueOf(MySharedPreferences.getUserSetting("id"));
+                //int reciever_id
+
                 handleDataMessage(json, msg);
             } catch (Exception e) {}
         }

@@ -20,6 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        setTitle("بنك الدم");
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {

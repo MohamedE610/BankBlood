@@ -17,14 +17,14 @@ import android.widget.Toast;
 
 
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
-import com.example.bankblood.Models.Donner.Donner;
+import com.example.bankblood.Models.Donor.Donor;
 import com.example.bankblood.Models.Region.Region;
 import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.FirebaseAuthentacitionUtils.FirebaseSignUp;
 import com.example.bankblood.Utils.MySharedPreferences;
-import com.example.bankblood.Utils.RestApiRequests.AddDonnersRequest;
+import com.example.bankblood.Utils.RestApiRequests.AddDonorsRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
 import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
@@ -48,6 +48,9 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+
+        setTitle("التسجيل");
 
         MySharedPreferences.setUpMySharedPreferences(this);
         firebaseSignUp=new FirebaseSignUp();
@@ -165,12 +168,12 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                             hashMap.put("city_id",cityStr);
                             hashMap.put("token",device_token);
 
-                            AddDonnersRequest addDonnersRequest=new AddDonnersRequest(hashMap);
-                            addDonnersRequest.setCallbacks(new Callbacks() {
+                            AddDonorsRequest addDonorsRequest =new AddDonorsRequest(hashMap);
+                            addDonorsRequest.setCallbacks(new Callbacks() {
                                 @Override
                                 public void OnSuccess(Object obj) {
-                                    Donner donner=(Donner)obj;
-                                    MySharedPreferences.setUserSetting("id",donner.data.id+"");
+                                    Donor donor =(Donor)obj;
+                                    MySharedPreferences.setUserSetting("id", donor.data.id+"");
                                     startActivity(new Intent(SignupActivity.this, HomeActivity.class));
                                     finish();
                                 }
@@ -181,7 +184,7 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
                                 }
                             });
 
-                            addDonnersRequest.start();
+                            addDonorsRequest.start();
 
                         }catch (Exception e){}
 
@@ -327,8 +330,11 @@ public class SignupActivity extends AppCompatActivity implements CompoundButton.
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 areaStr=areaValues[position];
-                int area_id=Integer.valueOf(areaStr);
-                getCities(area_id);
+                try {
+                    int area_id = Integer.valueOf(areaStr);
+                    getCities(area_id);
+
+                }catch (Exception e){}
             }
 
             @Override

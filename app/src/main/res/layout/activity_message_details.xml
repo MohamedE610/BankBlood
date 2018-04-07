@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.bankblood.Activities.MessageDetailsActivity">
+    tools:context="com.example.bankblood.Activities.MessageDetailsActivity"
+    android:padding="10dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,15 +45,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    />
             </android.support.v7.widget.CardView>
 
             <TextView
+                android:padding="10dp"
                 android:id="@+id/msg_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:gravity="center"
+                />
 
         </LinearLayout>
     </ScrollView>

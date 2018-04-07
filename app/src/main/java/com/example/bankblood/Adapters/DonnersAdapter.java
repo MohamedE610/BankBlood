@@ -1,11 +1,8 @@
 package com.example.bankblood.Adapters;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,17 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bankblood.Dialogs.SendMessageDialog;
-import com.example.bankblood.Models.Donners.Donners;
+import com.example.bankblood.Models.Donors.Donors;
 import com.example.bankblood.R;
-import com.example.bankblood.Utils.RestApiRequests.NewMessageRequest;
-import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
 
 
 public class DonnersAdapter extends RecyclerView.Adapter<DonnersAdapter.MyViewHolder> {
 
-     Donners donners;
+     Donors donors;
     Context context;
     int LastPosition = -1;
     RecyclerViewClickListener ClickListener;
@@ -36,8 +29,8 @@ public class DonnersAdapter extends RecyclerView.Adapter<DonnersAdapter.MyViewHo
     public DonnersAdapter() {
     }
 
-    public DonnersAdapter(Donners donners, Context context) {
-        this.donners = donners;
+    public DonnersAdapter(Donors donors, Context context) {
+        this.donors = donors;
         this.context = context;
     }
 
@@ -55,18 +48,18 @@ public class DonnersAdapter extends RecyclerView.Adapter<DonnersAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        String name=donners.data.get(position).name;
+        String name= donors.data.get(position).name;
         holder.nameTextView.setText(name);
 
-        String bloodType=donners.data.get(position).bloodType;
+        String bloodType= donors.data.get(position).bloodType;
         holder.bloodTypeTextView.setText(bloodType);
 
-        String city=donners.data.get(position).city;
+        String city= donors.data.get(position).city;
         holder.cityTextView.setText(city);
 
-        final String phoneNum=donners.data.get(position).phone;
+        final String phoneNum= donors.data.get(position).phone;
 
-        final int donnerID=donners.data.get(position).id;
+        final int donnerID= donors.data.get(position).id;
 
         holder.msgImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,9 +98,9 @@ public class DonnersAdapter extends RecyclerView.Adapter<DonnersAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        if (donners == null || donners.data==null)
+        if (donors == null || donors.data==null)
             return 0;
-        return donners.data.size();
+        return donors.data.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -9,20 +9,16 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
-import com.example.bankblood.Models.Cities.Cities;
 import com.example.bankblood.Models.Region.Region;
 import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
-import com.example.bankblood.Utils.RestApiRequests.DonnerSearchRequest;
+import com.example.bankblood.Utils.RestApiRequests.DonorSearchRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
-import com.example.bankblood.Utils.RestApiRequests.FetchCitiesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
-import com.example.bankblood.Utils.RestApiRequests.FilterDonnersByBloodTypeRequest;
 import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
 
 import java.util.HashMap;
@@ -188,8 +184,8 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
         HashMap<String,String> hashMap=new HashMap<>();
         hashMap.put("blood_type_id",bloodTypeStr);
         hashMap.put("city_id",cityStr);
-        DonnerSearchRequest donnerSearchRequest=new DonnerSearchRequest(hashMap);
-        donnerSearchRequest.setCallbacks(new Callbacks() {
+        DonorSearchRequest donorSearchRequest =new DonorSearchRequest(hashMap);
+        donorSearchRequest.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
                 callbacks.OnSuccess(obj);
@@ -202,7 +198,7 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                 cancel();
             }
         });
-        donnerSearchRequest.start();
+        donorSearchRequest.start();
 
     }
 

@@ -1,11 +1,11 @@
 
-package com.example.bankblood.Models.Donner;
+package com.example.bankblood.Models.Donors;
 
 import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data implements Serializable
+public class DonorData implements Serializable
 {
 
     @SerializedName("id")
@@ -35,6 +35,6 @@ public class Data implements Serializable
     @SerializedName("incomingMessages")
     @Expose
     public IncomingMessages incomingMessages;
-    private final static long serialVersionUID = 3517549579700979884L;
+    private final static long serialVersionUID = -4752430327529396324L;
 
 }

@@ -28,6 +28,8 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle("الصفحة الشخصية");
+
         Intent intent=getIntent();
         bundle=intent.getExtras();
         action=intent.getAction();

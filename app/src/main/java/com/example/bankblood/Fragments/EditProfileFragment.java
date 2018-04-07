@@ -1,8 +1,6 @@
 package com.example.bankblood.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,16 +20,16 @@ import android.widget.Toast;
 
 import com.example.bankblood.Activities.ResetPasswordActivity;
 import com.example.bankblood.Models.BloodTypes.BloodTypes;
-import com.example.bankblood.Models.Donner.Donner;
+import com.example.bankblood.Models.Donor.Donor;
 import com.example.bankblood.Models.Region.Region;
 import com.example.bankblood.Models.Regions.Regions;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.RestApiRequests.FetchBloodTypesRequest;
 import com.example.bankblood.Utils.RestApiRequests.FetchRegionsRequest;
-import com.example.bankblood.Utils.RestApiRequests.GetDonnerByIDRequest;
+import com.example.bankblood.Utils.RestApiRequests.GetDonorByIDRequest;
 import com.example.bankblood.Utils.RestApiRequests.GetRegionByIDRequest;
-import com.example.bankblood.Utils.RestApiRequests.UpdateDonnerRequest;
+import com.example.bankblood.Utils.RestApiRequests.UpdateDonorRequest;
 
 import java.util.HashMap;
 
@@ -99,39 +97,42 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
     private void getDonnerData() {
         int id=bundle.getInt("person_id");
-        GetDonnerByIDRequest getDonnerByIDRequest=new GetDonnerByIDRequest(id);
-        getDonnerByIDRequest.setCallbacks(new Callbacks() {
+        GetDonorByIDRequest getDonorByIDRequest =new GetDonorByIDRequest(id);
+        getDonorByIDRequest.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
                 try {
-                    Donner donner = (Donner) obj;
-                    String[] strs = donner.data.name.split(" ");
+                    Donor donor = (Donor) obj;
+                    String[] strs = donor.data.name.split(" ");
                     inputFirstName.setText(strs[0]);
                     inputLastName.setText(strs[1]);
-                    inputPhoneNum.setText(donner.data.phone);
-                    bloodTypeStr=donner.data.bloodType;
+                    inputPhoneNum.setText(donor.data.phone);
+                    bloodTypeStr= donor.data.bloodType;
 
                     for (int i = 0; i <spinnerBloodTypeData.length ; i++) {
                         if(bloodTypeStr.equals(spinnerBloodTypeData[i])){
                             spinnerBloodType.setSelection(i);
+                            break;
                         }
                     }
 
-                    cityStr=donner.data.city;
+                    cityStr= donor.data.city;
                     for (int i = 0; i <spinnerCityData.length ; i++) {
                         if(cityStr.equals(spinnerCityData[i])){
                             spinnerCity.setSelection(i);
                         }
                     }
 
-                    areaStr=donner.data.region;
+                    areaStr= donor.data.region;
                     for (int i = 0; i <spinnerAreaData.length ; i++) {
                         if(cityStr.equals(spinnerAreaData[i])){
                             spinnerArea.setSelection(i);
                         }
                     }
 
-                }catch (Exception e){}
+                }catch (Exception e){
+                    e.getMessage();
+                }
 
             }
 
@@ -140,7 +141,7 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
                 Toast.makeText(getContext(), "لقد حدث خطاء", Toast.LENGTH_SHORT).show();
             }
         });
-        getDonnerByIDRequest.start();
+        getDonorByIDRequest.start();
     }
 
     private void getCities(int area_id) {
@@ -346,11 +347,11 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
         hashMap.put("blood_type_id",bloodTypeStr);
         hashMap.put("city_id",cityStr);
 
-        UpdateDonnerRequest updateDonnerRequest=new UpdateDonnerRequest(hashMap,id);
-        updateDonnerRequest.setCallbacks(new Callbacks() {
+        UpdateDonorRequest updateDonorRequest =new UpdateDonorRequest(hashMap,id);
+        updateDonorRequest.setCallbacks(new Callbacks() {
             @Override
             public void OnSuccess(Object obj) {
-                Donner donner=(Donner)obj;
+                Donor donor =(Donor)obj;
                 Toast.makeText(getActivity(), "تمت العملية بنجاح", Toast.LENGTH_SHORT).show();
                 addProfileFragment(bundle);
             }
@@ -360,7 +361,7 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
                 Toast.makeText(getActivity(), "لقد حدث خطاء", Toast.LENGTH_SHORT).show();
             }
         });
-        updateDonnerRequest.start();
+        updateDonorRequest.start();
 
     }
 

@@ -1,5 +1,5 @@
 
-package com.example.bankblood.Models.Donners;
+package com.example.bankblood.Models.Donor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +11,7 @@ public class OutgoingMessages implements Serializable
 
     @SerializedName("data")
     @Expose
-    public List<Datum_> data = null;
-    private final static long serialVersionUID = -3529216079093787393L;
+    public List<Datum> data = null;
+    private final static long serialVersionUID = -5242426487832947982L;
 
 }

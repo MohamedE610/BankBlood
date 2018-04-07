@@ -23,6 +23,8 @@ public class MessageDetailsActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_details);
 
+        setTitle("الرسالة");
+
         nameView=(TextView)findViewById(R.id.person_name);
         titleView=(TextView)findViewById(R.id.msg_title);
         bodyView=(TextView)findViewById(R.id.msg_body);

@@ -19,6 +19,8 @@ public class InboxActivity extends AppCompatActivity implements TabLayout.OnTabS
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_inbox);
 
+        setTitle("الرسائل");
+
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.addOnTabSelectedListener(this);
         addReceivedMsgFragment();

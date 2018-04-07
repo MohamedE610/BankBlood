@@ -1,6 +1,5 @@
 package com.example.bankblood.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,18 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bankblood.Dialogs.SendMessageDialog;
-import com.example.bankblood.Models.Donner.Donner;
+import com.example.bankblood.Models.Donor.Donor;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.NetworkState;
 import com.example.bankblood.Utils.RestApiRequests.DonationApprovedRequest;
-import com.example.bankblood.Utils.RestApiRequests.GetDonnerByIDRequest;
+import com.example.bankblood.Utils.RestApiRequests.GetDonorByIDRequest;
 
 
 public class ProfileFragment extends Fragment implements Callbacks, View.OnClickListener {
 
-    Donner donner;
-    GetDonnerByIDRequest getDonnerByIDRequest;
+    Donor donor;
+    GetDonorByIDRequest getDonorByIDRequest;
 
     TextView name,bloodType,city,status;
     String nameStr,bloodTypeStr,cityStr,statusStr;
@@ -61,20 +60,20 @@ public class ProfileFragment extends Fragment implements Callbacks, View.OnClick
         int id=bundle.getInt("person_id");
 
         if(NetworkState.ConnectionAvailable(getContext())){
-            getDonnerByIDRequest=new GetDonnerByIDRequest(id);
-            getDonnerByIDRequest.setCallbacks(this);
-            getDonnerByIDRequest.start();
+            getDonorByIDRequest =new GetDonorByIDRequest(id);
+            getDonorByIDRequest.setCallbacks(this);
+            getDonorByIDRequest.start();
         }
 
         return view;
     }
 
     private void displayData(Object obj) {
-        donner=(Donner)obj;
-        name.setText(donner.data.name);
-        bloodType.setText(donner.data.bloodType);
-        city.setText(donner.data.city);
-        statusStr=donner.data.status;
+        donor =(Donor)obj;
+        name.setText(donor.data.name);
+        bloodType.setText(donor.data.bloodType);
+        city.setText(donor.data.city);
+        statusStr= donor.data.status;
         if(!statusStr.equals("Available")) {
             statusStr="متبرع سابقا";
             status.setText(statusStr);
@@ -99,13 +98,13 @@ public class ProfileFragment extends Fragment implements Callbacks, View.OnClick
         int id=view.getId();
         switch (id){
             case R.id.call_card:
-                makeCall(donner.data.phone);
+                makeCall(donor.data.phone);
                 break;
             case R.id.msg_card:
-                sendMsg(donner.data.id);
+                sendMsg(donor.data.id);
                 break;
             case R.id.btn_donated:
-                donatedMethod(donner.data.id);
+                donatedMethod(donor.data.id);
                 break;
         }
     }
