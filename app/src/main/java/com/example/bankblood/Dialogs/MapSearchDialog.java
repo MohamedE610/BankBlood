@@ -67,8 +67,7 @@ public class MapSearchDialog extends Dialog implements View.OnClickListener {
 
     private void okBtnWork() {
 
-        GpsController gpsController =new GpsController(c);
-        gpsController.turnGPSOn();
+
 
         MyGPSTracker myGPSTracker=new MyGPSTracker(c);
 
@@ -84,7 +83,6 @@ public class MapSearchDialog extends Dialog implements View.OnClickListener {
             mapIntent.setPackage("com.google.android.apps.maps");
             c.startActivity(mapIntent);
 
-            gpsController.turnGPSOff();
 
         }else {
             Toast.makeText(c, "Please, turn on GPS", Toast.LENGTH_SHORT).show();

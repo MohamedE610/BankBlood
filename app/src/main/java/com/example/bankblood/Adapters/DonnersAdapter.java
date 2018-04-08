@@ -41,7 +41,7 @@ public class DonnersAdapter extends RecyclerView.Adapter<DonnersAdapter.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_donner, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_donor, parent, false);
         return new MyViewHolder(view);
     }
 
