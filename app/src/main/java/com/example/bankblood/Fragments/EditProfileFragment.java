@@ -94,7 +94,7 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
         return view;
     }
-
+    Donor donor;
     private void getDonnerData() {
         int id=bundle.getInt("person_id");
         GetDonorByIDRequest getDonorByIDRequest =new GetDonorByIDRequest(id);
@@ -102,7 +102,7 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
             @Override
             public void OnSuccess(Object obj) {
                 try {
-                    Donor donor = (Donor) obj;
+                    donor = (Donor) obj;
                     String[] strs = donor.data.name.split(" ");
                     inputFirstName.setText(strs[0]);
                     inputLastName.setText(strs[1]);
@@ -116,19 +116,15 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
                         }
                     }
 
-                    cityStr= donor.data.city;
-                    for (int i = 0; i <spinnerCityData.length ; i++) {
-                        if(cityStr.equals(spinnerCityData[i])){
-                            spinnerCity.setSelection(i);
-                        }
-                    }
-
                     areaStr= donor.data.region;
                     for (int i = 0; i <spinnerAreaData.length ; i++) {
                         if(cityStr.equals(spinnerAreaData[i])){
                             spinnerArea.setSelection(i);
+                            break;
                         }
                     }
+
+
 
                 }catch (Exception e){
                     e.getMessage();
@@ -292,6 +288,14 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
             }
         });
+
+        cityStr= donor.data.city;
+        for (int i = 0; i <spinnerCityData.length ; i++) {
+            if(cityStr.equals(spinnerCityData[i])){
+                spinnerCity.setSelection(i);
+                break;
+            }
+        }
     }
 
     @Override
