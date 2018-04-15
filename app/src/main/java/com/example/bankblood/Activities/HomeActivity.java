@@ -1,6 +1,11 @@
 package com.example.bankblood.Activities;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -21,9 +26,11 @@ import com.example.bankblood.Dialogs.DonateDialog;
 import com.example.bankblood.Dialogs.MapSearchDialog;
 import com.example.bankblood.Dialogs.SearchDialog;
 import com.example.bankblood.Fragments.HomeFragment;
+import com.example.bankblood.Models.Messages.Messages;
 import com.example.bankblood.R;
 import com.example.bankblood.Utils.Callbacks;
 import com.example.bankblood.Utils.MySharedPreferences;
+import com.example.bankblood.Utils.RestApiRequests.GetIncomingMessagesRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -33,8 +40,6 @@ public class HomeActivity extends AppCompatActivity
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-
-
 
 
     @Override
@@ -83,13 +88,14 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
         };
-     addHomeFragment();
+        addHomeFragment();
+        checkInboxUnreadMsg();
     }
 
     private void addHomeFragment() {
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        HomeFragment homeFragment=new HomeFragment();
-        fragmentManager.beginTransaction().add(R.id.container,homeFragment).commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        HomeFragment homeFragment = new HomeFragment();
+        fragmentManager.beginTransaction().add(R.id.container, homeFragment).commit();
     }
 
     //sign out method
@@ -145,7 +151,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_map) {
             mapMethod();
         } else if (id == R.id.nav_logout) {
-           signOut();
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -154,26 +160,81 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void mapMethod() {
-        MapSearchDialog mapSearchDialog=new MapSearchDialog(this);
+        MapSearchDialog mapSearchDialog = new MapSearchDialog(this);
         mapSearchDialog.show();
     }
 
     private void inboxMethod() {
-        Intent intent=new Intent(this,InboxActivity.class);
+        Intent intent = new Intent(this, InboxActivity.class);
         startActivity(intent);
     }
 
-    private void profileMethod(){
-        Intent intent=new Intent(this,ProfileActivity.class);
+    private void profileMethod() {
+        Intent intent = new Intent(this, ProfileActivity.class);
         intent.setAction("me");
-        int id=Integer.valueOf(MySharedPreferences.getUserSetting("id"));
-        intent.putExtra("person_id",id);
+        int id = Integer.valueOf(MySharedPreferences.getUserSetting("id"));
+        intent.putExtra("person_id", id);
         startActivity(intent);
     }
 
     @Override
     public void onClick(View view) {
 
+    }
+
+    private void checkInboxUnreadMsg() {
+        int id = Integer.valueOf(MySharedPreferences.getUserSetting("id"));
+        GetIncomingMessagesRequest getIncomingMessagesRequest = new GetIncomingMessagesRequest(id);
+        getIncomingMessagesRequest.setCallbacks(new Callbacks() {
+            @Override
+            public void OnSuccess(Object obj) {
+                Messages messages = (Messages) obj;
+                if (messages != null && messages.data != null && messages.data.size() > 0) {
+                    if (!messages.data.get(0).read) {
+                        handleDataMessage(messages.data.get(0).from.name, messages.data.get(0).title);
+                    } else {
+
+                    }
+                }
+            }
+
+            @Override
+            public void OnFailure(Object obj) {
+
+            }
+        });
+        getIncomingMessagesRequest.start();
+    }
+
+    private void handleDataMessage(String name, String msg) {
+        try {
+            Notification notification = createNotification(name, msg);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(485, notification);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PendingIntent createPendingIntent() {
+        Intent intent = new Intent(this, InboxActivity.class);
+        return PendingIntent.getActivity(this, 678, intent, 0);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private Notification createNotification(String sender, String msg) {
+
+        PendingIntent pendingIntent = createPendingIntent();
+
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle("بنك الدم")
+                .setSubText(sender)
+                .setContentText(msg)
+                .setSmallIcon(R.drawable.circlar_logo)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        return notification;
     }
 
 }

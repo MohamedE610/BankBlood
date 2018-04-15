@@ -51,6 +51,7 @@ public class ProfileFragment extends Fragment implements Callbacks, View.OnClick
         msgCard=(CardView)view.findViewById(R.id.msg_card);
 
         btnDonated=(Button)view.findViewById(R.id.btn_donated);
+        btnDonated.setVisibility(View.GONE);
 
         callCard.setOnClickListener(this);
         msgCard.setOnClickListener(this);
@@ -58,6 +59,12 @@ public class ProfileFragment extends Fragment implements Callbacks, View.OnClick
 
         Bundle bundle=getArguments();
         int id=bundle.getInt("person_id");
+
+        String action=bundle.getString("action");
+
+        if(action!=null&&action.equals("me"))
+            btnDonated.setVisibility(View.VISIBLE);
+
 
         if(NetworkState.ConnectionAvailable(getContext())){
             getDonorByIDRequest =new GetDonorByIDRequest(id);

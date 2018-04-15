@@ -117,9 +117,9 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
                     }
 
                     areaStr= donor.data.region;
-                    for (int i = 0; i <spinnerAreaData.length ; i++) {
-                        if(cityStr.equals(spinnerAreaData[i])){
-                            spinnerArea.setSelection(i);
+                    for (int j = 0; j <spinnerAreaData.length ; j++) {
+                        if(areaStr.equals(spinnerAreaData[j])){
+                            spinnerArea.setSelection(j);
                             break;
                         }
                     }
@@ -345,6 +345,9 @@ public class EditProfileFragment extends Fragment implements CompoundButton.OnCh
 
         int id=bundle.getInt("person_id");
         HashMap<String,String> hashMap=new HashMap<>();
+        firstName=inputFirstName.getText().toString();
+        lastName=inputLastName.getText().toString();
+        phone=inputPhoneNum.getText().toString();
         hashMap.put("first_name",firstName);
         hashMap.put("last_name",lastName);
         hashMap.put("phone",phone);

@@ -28,6 +28,9 @@ import java.util.Set;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    private String receiver_id;
+    private String id;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -42,22 +45,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
+        if (remoteMessage.getData().size() > 0) try {
+            Map map = remoteMessage.getData();
+            String msg = map.get("message").toString();
+            String sender = map.get("sender").toString();
 
-            try {
-                Map map=remoteMessage.getData();
-                String msg=map.get("message").toString();
-                String sender=map.get("sender").toString();
-                //Set set=map.keySet();
-                //set.toArray();
-                JSONObject json = new JSONObject(sender);
-                MySharedPreferences.setUpMySharedPreferences(getApplicationContext());
+            receiver_id = map.get("receiver").toString();
+            //Set set=map.keySet();
+            //set.toArray();
+            JSONObject json = new JSONObject(sender);
+            MySharedPreferences.setUpMySharedPreferences(getApplicationContext());
 
-                int id=Integer.valueOf(MySharedPreferences.getUserSetting("id"));
-                //int reciever_id
+            id = MySharedPreferences.getUserSetting("id");
+            //int reciever_id
 
+            if(id.equals(receiver_id)){
                 handleDataMessage(json, msg);
-            } catch (Exception e) {}
+            }
+
+        } catch (Exception e) {
         }
 
 

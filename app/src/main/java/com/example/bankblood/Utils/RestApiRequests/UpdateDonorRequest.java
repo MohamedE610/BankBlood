@@ -1,10 +1,13 @@
 package com.example.bankblood.Utils.RestApiRequests;
 
+import android.util.Log;
+
 import com.example.bankblood.Models.Donor.Donor;
 import com.example.bankblood.Utils.RetrofitUtils.ApiClient;
 import com.example.bankblood.Utils.RetrofitUtils.ApiInterface;
 import com.example.bankblood.Utils.RetrofitUtils.FetchData;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -33,6 +36,7 @@ public class UpdateDonorRequest extends FetchData implements Callback<Donor> {
 
     @Override
     public void onResponse(Call<Donor> call, Response<Donor> response) {
+
         Donor body=response.body();
         callbacks.OnSuccess(body);
     }

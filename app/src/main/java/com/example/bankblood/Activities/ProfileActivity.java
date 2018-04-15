@@ -30,43 +30,44 @@ public class ProfileActivity extends AppCompatActivity {
 
         setTitle("الصفحة الشخصية");
 
-        Intent intent=getIntent();
-        bundle=intent.getExtras();
-        action=intent.getAction();
-
+        Intent intent = getIntent();
+        bundle = intent.getExtras();
+        action = intent.getAction();
+        if (action != null && action.equals("me"))
+            bundle.putString("action", "me");
         addProfileFragment(bundle);
 
     }
 
     private void addProfileFragment(Bundle bundle) {
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        ProfileFragment profileFragment=new ProfileFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ProfileFragment profileFragment = new ProfileFragment();
         profileFragment.setArguments(bundle);
 
-        Fragment oldFragment=fragmentManager.findFragmentByTag("EditProfileFragment");
-        if(oldFragment!=null)
+        Fragment oldFragment = fragmentManager.findFragmentByTag("EditProfileFragment");
+        if (oldFragment != null)
             fragmentManager.beginTransaction().remove(oldFragment);
 
-        fragmentManager.beginTransaction().replace(R.id.container,profileFragment,"ProfileFragment").commit();
+        fragmentManager.beginTransaction().replace(R.id.container, profileFragment, "ProfileFragment").commit();
     }
 
     private void addEditProfileFragment(Bundle bundle) {
-       FragmentManager fragmentManager=getSupportFragmentManager();
-        EditProfileFragment  editProfileFragment=new EditProfileFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        EditProfileFragment editProfileFragment = new EditProfileFragment();
         editProfileFragment.setArguments(bundle);
 
-        Fragment oldFragment=fragmentManager.findFragmentByTag("ProfileFragment");
-        if(oldFragment!=null)
+        Fragment oldFragment = fragmentManager.findFragmentByTag("ProfileFragment");
+        if (oldFragment != null)
             fragmentManager.beginTransaction().remove(oldFragment);
 
-        fragmentManager.beginTransaction().replace(R.id.container,editProfileFragment,"EditProfileFragment").commit();
+        fragmentManager.beginTransaction().replace(R.id.container, editProfileFragment, "EditProfileFragment").commit();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        if(action!=null&&action.equals("me"))
+        if (action != null && action.equals("me"))
             getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return super.onCreateOptionsMenu(menu);
@@ -74,11 +75,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id= item.getItemId();
-        switch (id){
+        int id = item.getItemId();
+        switch (id) {
             case R.id.action_settings:
                 addEditProfileFragment(bundle);
-            break;
+                break;
         }
 
         return super.onOptionsItemSelected(item);
